@@ -6,6 +6,13 @@
 # 🔧 Configuración de rutas
 # ==============================
 
+# Configurar la consola para manejar caracteres Unicode correctamente
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
+# ==============================
+# 🔧 Configuración de rutas
+# ==============================
+
 # 📂 Ruta de origen - Carpeta con archivos que deseas respaldar
 $SourcePath = "D:\Emuladores\Sony - PlayStation Portable\ppsspp\memstick\PSP\SAVEDATA"
 
@@ -30,11 +37,12 @@ foreach ($Destination in $DestinationPaths) {
 # ==============================
 
 # Obtener número total de archivos
-$Files = Get-ChildItem -Path $SourcePath -Recurse
+$Files = Get-ChildItem -Path $SourcePath -Recurse -File
 $TotalFiles = $Files.Count
 $ProgressStep = if ($TotalFiles -gt 0) { 100 / $TotalFiles } else { 0 }
 $Errores = @()
-$ArchivosModificados = @{}
+$DestinoColores = @{}
+$ArchivosModificados = @{}  # Se movió fuera de la función para evitar reinicio
 
 # ==============================
 # 🎨 Asignación de colores automáticamente
@@ -42,29 +50,45 @@ $ArchivosModificados = @{}
 $Colores = @("Yellow", "Magenta", "DarkYellow", "Blue", "Green", "Cyan", "White")
 
 # ==============================
+# 📌 Asignación de colores a destinos (incluye detección de nubes)
+# ==============================
+foreach ($Destino in $DestinationPaths) {
+    $NombreDestino = if ($Destino -match "OneDrive") { "OneDrive" }
+                     elseif ($Destino -match "iCloudDrive") { "iCloudDrive" }
+                     else { Split-Path -Path $Destino -Leaf }
+
+    $ColorAsignado = if ($Destino -match "OneDrive") { "Blue" }
+                     elseif ($Destino -match "iCloudDrive") { "Cyan" }
+                     else { $Colores[$DestinationPaths.IndexOf($Destino) % $Colores.Count] }
+
+    $DestinoColores[$Destino] = @{ Nombre = $NombreDestino; Color = $ColorAsignado }
+}
+
+# ==============================
 # 📌 Inicio del respaldo
 # ==============================
 Write-Host "`n==================================================" -ForegroundColor Cyan
-Write-Host "🔹 **INICIANDO RESPALDO AUTOMÁTICO**" -ForegroundColor Cyan
+Write-Host "🔹 INICIANDO RESPALDO AUTOMÁTICO" -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 
 Write-Host "`n📂 Origen:" -ForegroundColor Gray
 Write-Host "   $SourcePath" -ForegroundColor White
 
 Write-Host "`n💾 Destinos:" -ForegroundColor Gray
-for ($i = 0; $i -lt $DestinationPaths.Count; $i++) {
-    $NombreDestino = if ($DestinationPaths[$i] -match "OneDrive") { "OneDrive" }
-                     elseif ($DestinationPaths[$i] -match "iCloudDrive") { "iCloudDrive" }
-                     else { Split-Path -Path $DestinationPaths[$i] -Leaf }
-
-    $Icono = if ($i -eq $DestinationPaths.Count - 1) { "└──" } else { "├──" }
-    Write-Host "   $Icono $NombreDestino  ➡  $($DestinationPaths[$i])" -ForegroundColor Green
+foreach ($Destino in $DestinationPaths) {
+    $DestinoInfo = $DestinoColores[$Destino]
+    if ($DestinoInfo -ne $null) {
+        $Icono = if ($Destino -eq $DestinationPaths[-1]) { "└──" } else { "├──" }
+        Write-Host "   $Icono $($DestinoInfo.Nombre)  ➡  $Destino" -ForegroundColor $DestinoInfo.Color
+    }
 }
 
 # ==============================
 # 📤 Función para respaldo con barra de progreso y detalles de archivos
 # ==============================
-function Copy-WithProgress($DestinationPath, $CloudName, $Color) {
+function Copy-WithProgress($DestinationPath, $CloudName) {
+    $Color = $DestinoColores[$DestinationPath].Color
+    
     Write-Host "`n--------------------------------------------------" -ForegroundColor $Color
     Write-Host "🔄 Iniciando respaldo en $CloudName..." -ForegroundColor $Color
     Write-Host "--------------------------------------------------" -ForegroundColor $Color
@@ -74,9 +98,15 @@ function Copy-WithProgress($DestinationPath, $CloudName, $Color) {
 
     try {
         foreach ($File in $Files) {
-            $DestinoCompleto = Join-Path $DestinationPath $File.Name
-            $FechaAnterior = if (Test-Path $DestinoCompleto) { (Get-Item $DestinoCompleto).LastWriteTime } else { "No existía" }
+            $DestinoCompleto = $File.FullName.Replace($SourcePath, $DestinationPath)
+            
+            # Crear estructura de carpetas en el destino si no existen
+            $DestinoCarpeta = Split-Path -Path $DestinoCompleto -Parent
+            if (!(Test-Path $DestinoCarpeta)) { 
+                New-Item -Path $DestinoCarpeta -ItemType Directory -Force | Out-Null
+            }
 
+            $FechaAnterior = if (Test-Path $DestinoCompleto) { (Get-Item $DestinoCompleto).LastWriteTime } else { "No existía" }
             Copy-Item -Path $File.FullName -Destination $DestinoCompleto -Force
             $FechaNueva = (Get-Item $DestinoCompleto).LastWriteTime
 
@@ -89,7 +119,7 @@ function Copy-WithProgress($DestinationPath, $CloudName, $Color) {
 
             # Barra de progreso
             $Counter++
-            $PercentComplete = [math]::Round($Counter * $ProgressStep)
+            $PercentComplete = [math]::Round($Counter * (100 / $Files.Count))
             $Bar = ("█" * ($PercentComplete * $BarLength / 100)) + (" " * ((40 - $PercentComplete * $BarLength / 100)))
             Write-Host "`r[$Bar] $PercentComplete% completado" -NoNewline
         }
@@ -97,7 +127,9 @@ function Copy-WithProgress($DestinationPath, $CloudName, $Color) {
         Write-Host "`r[$Bar] 100% completado" -ForegroundColor $Color
         Write-Host "`n✅ Respaldo en $CloudName completado!" -ForegroundColor $Color
 
-        # Mostrar archivos modificados agrupados por carpeta
+        # ==============================
+        # 📂 Mostrar archivos modificados agrupados por carpeta
+        # ==============================
         Write-Host "`n📂 Archivos modificados en ${CloudName}:" -ForegroundColor $Color
         Write-Host "--------------------------------------------------" -ForegroundColor $Color
         foreach ($Carpeta in $ArchivosModificados.Keys) {
@@ -112,31 +144,22 @@ function Copy-WithProgress($DestinationPath, $CloudName, $Color) {
         }
 
     } catch {
-        $ErrorMessage = $_.Exception.Message
         Write-Host "`n⚠ Error durante la copia en $CloudName." -ForegroundColor Red
-        Write-Host "`n🔴 Detalles del error:" -ForegroundColor Red
-        Write-Host "$ErrorMessage" -ForegroundColor Red
-        $Errores += $File.Name
     }
 }
 
 # ==============================
-# 🚀 Ejecutar respaldo en todas las ubicaciones con asignación de color automática
+# 🚀 Ejecutar respaldo en todas las ubicaciones
 # ==============================
-for ($i = 0; $i -lt $DestinationPaths.Count; $i++) {
-    $CloudName = if ($DestinationPaths[$i] -match "OneDrive") { "OneDrive" }
-                 elseif ($DestinationPaths[$i] -match "iCloudDrive") { "iCloudDrive" }
-                 else { Split-Path -Path $DestinationPaths[$i] -Leaf }
-
-    $ColorAsignado = $Colores[$i % $Colores.Count]
-    Copy-WithProgress $DestinationPaths[$i] $CloudName $ColorAsignado
+foreach ($Destino in $DestinationPaths) {
+    Copy-WithProgress $Destino $DestinoColores[$Destino].Nombre
 }
+
 
 
 # ==============================
 # 📌 Mostrar archivos con errores
 # ==============================
-
 Write-Host "`n--------------------------------------------------" -ForegroundColor Red
 Write-Host "⚠ Archivos con errores: $($Errores.Count)" -ForegroundColor Red
 
