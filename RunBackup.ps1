@@ -1,9 +1,5 @@
 # ==============================
-#  Script de respaldo
-# ==============================
-
-# ==============================
-# 🔧 Configuración de rutas
+# 🚀 Script de respaldo automático - RunBackupV2
 # ==============================
 
 # Configurar la consola para manejar caracteres Unicode correctamente
@@ -14,126 +10,121 @@
 # ==============================
 
 # 📂 Ruta de origen - Carpeta con archivos que deseas respaldar
-$SourcePath = "D:\Emuladores\Sony - PlayStation Portable\ppsspp\memstick\PSP\SAVEDATA"
+$SourcePath = "D:\Emuladores\Sony - PlayStation Portable\ppsspp\memstick\PSP\Cheats"
 
 # 📌 Rutas de destino - Lugares donde se hará el respaldo
 $DestinationPaths = @(
-    "C:\Users\xxxxx\iCloudDrive\Emuladores\Sony - PlayStation Portable\PPSSPP\memstick\PSP",
-    "E:\Nube\OneDrive\Emuladores\Sony - PlayStation Portable\ppsspp\memstick\PSP",
+    "E:\Nube\OneDrive\Carpeta3",
+    "C:\Users\xxxxx\Desktop\carpeta2",
+    "C:\Users\xxxxx\iCloudDrive\carpetaTest",
     "C:\Users\xxxxx\Desktop\Carpeta1"
 )
 
-# ==============================
-# 🔧 Creación de carpetas de destino si no existen
-# ==============================
-foreach ($Destination in $DestinationPaths) {
-    if (!(Test-Path -Path $Destination)) { 
-        New-Item -Path $Destination -ItemType Directory -Force
-    }
+# Validar rutas antes de ejecutar el respaldo
+if ($SourcePath -eq "" -or $DestinationPaths.Count -eq 0) {
+    Write-Host "`n⚠ ERROR: Debes definir la ruta de origen y al menos un destino antes de ejecutar el script." -ForegroundColor Red
+    exit
 }
 
 # ==============================
-# 📤 Procesamiento de archivos
+# 🎨 Asignación de colores a destinos (con deteccion de nubes)
 # ==============================
 
-# Obtener número total de archivos
-$Files = Get-ChildItem -Path $SourcePath -Recurse -File
-$TotalFiles = $Files.Count
-$ProgressStep = if ($TotalFiles -gt 0) { 100 / $TotalFiles } else { 0 }
-$Errores = @()
+# Función para determinar el color según el destino
+function Get-DestinationColor ($Destino) {
+    $Colores = @("Yellow", "Magenta", "DarkYellow", "Blue", "Green", "Cyan", "White")
+    if ($Destino -match "OneDrive") { return "Blue" }
+    elseif ($Destino -match "iCloudDrive") { return "Cyan" }
+    else { return $Colores[(Get-Random -Maximum $Colores.Count)] }
+}
+
+# ✅ Asignar colores a cada destino
 $DestinoColores = @{}
-$ArchivosModificados = @{}  # Se movió fuera de la función para evitar reinicio
-
-# ==============================
-# 🎨 Asignación de colores automáticamente
-# ==============================
-$Colores = @("Yellow", "Magenta", "DarkYellow", "Blue", "Green", "Cyan", "White")
-
-# ==============================
-# 📌 Asignación de colores a destinos (incluye detección de nubes)
-# ==============================
 foreach ($Destino in $DestinationPaths) {
-    $NombreDestino = if ($Destino -match "OneDrive") { "OneDrive" }
-                     elseif ($Destino -match "iCloudDrive") { "iCloudDrive" }
-                     else { Split-Path -Path $Destino -Leaf }
-
-    $ColorAsignado = if ($Destino -match "OneDrive") { "Blue" }
-                     elseif ($Destino -match "iCloudDrive") { "Cyan" }
-                     else { $Colores[$DestinationPaths.IndexOf($Destino) % $Colores.Count] }
-
-    $DestinoColores[$Destino] = @{ Nombre = $NombreDestino; Color = $ColorAsignado }
+    $DestinoColores[$Destino] = Get-DestinationColor $Destino
 }
 
 # ==============================
 # 📌 Inicio del respaldo
 # ==============================
+
 Write-Host "`n==================================================" -ForegroundColor Cyan
-Write-Host "🔹 INICIANDO RESPALDO AUTOMÁTICO" -ForegroundColor Cyan
+Write-Host "🔹 **INICIANDO RESPALDO AUTOMÁTICO**" -ForegroundColor Cyan
 Write-Host "==================================================" -ForegroundColor Cyan
 
 Write-Host "`n📂 Origen:" -ForegroundColor Gray
 Write-Host "   $SourcePath" -ForegroundColor White
 
 Write-Host "`n💾 Destinos:" -ForegroundColor Gray
-foreach ($Destino in $DestinationPaths) {
+for ($i = 0; $i -lt $DestinationPaths.Count; $i++) {
+    $Destino = $DestinationPaths[$i]
     $DestinoInfo = $DestinoColores[$Destino]
     if ($DestinoInfo -ne $null) {
-        $Icono = if ($Destino -eq $DestinationPaths[-1]) { "└──" } else { "├──" }
-        Write-Host "   $Icono $($DestinoInfo.Nombre)  ➡  $Destino" -ForegroundColor $DestinoInfo.Color
+        $Icono = if ($i -eq $DestinationPaths.Count - 1) { "└──" } else { "├──" }
+        $IconoDestino = if ($Destino -match "OneDrive" -or $Destino -match "iCloudDrive") { "☁" } else { "📁" }
+        Write-Host "   $Icono $IconoDestino $Destino" -ForegroundColor $DestinoInfo
     }
 }
 
 # ==============================
 # 📤 Función para respaldo con barra de progreso y detalles de archivos
 # ==============================
-function Copy-WithProgress($DestinationPath, $CloudName) {
-    $Color = $DestinoColores[$DestinationPath].Color
-    
+
+# Variables globales para almacenar archivos respaldados y errores
+$ArchivosModificados = @{}
+$Errores = @()
+
+function Copy-WithProgress($DestinationPath) {
+    $Color = $DestinoColores[$DestinationPath]
+    $CloudName = if ($DestinationPath -match "OneDrive") { "OneDrive" }
+                elseif ($DestinationPath -match "iCloudDrive") { "iCloud" }
+                else { Split-Path -Path $DestinationPath -Leaf }
+
     Write-Host "`n--------------------------------------------------" -ForegroundColor $Color
-    Write-Host "🔄 Iniciando respaldo en $CloudName..." -ForegroundColor $Color
+    Write-Host "🔄 Iniciando respaldo en ${CloudName}..." -ForegroundColor $Color
     Write-Host "--------------------------------------------------" -ForegroundColor $Color
 
+    $Files = Get-ChildItem -Path $SourcePath -Recurse
     $Counter = 0
     $BarLength = 40
 
     try {
         foreach ($File in $Files) {
             $DestinoCompleto = $File.FullName.Replace($SourcePath, $DestinationPath)
-            
-            # Crear estructura de carpetas en el destino si no existen
             $DestinoCarpeta = Split-Path -Path $DestinoCompleto -Parent
-            if (!(Test-Path $DestinoCarpeta)) { 
-                New-Item -Path $DestinoCarpeta -ItemType Directory -Force | Out-Null
+
+            if (!(Test-Path $DestinoCarpeta)) {
+                try {
+                    New-Item -Path $DestinoCarpeta -ItemType Directory -Force | Out-Null
+                } catch {
+                    Write-Host "`n⚠ No se pudo crear la carpeta: $DestinoCarpeta (Permiso denegado) - Archivo afectado: $DestinoCompleto" -ForegroundColor Red
+                    $Errores += $DestinoCompleto
+                    continue
+                }
             }
 
             $FechaAnterior = if (Test-Path $DestinoCompleto) { (Get-Item $DestinoCompleto).LastWriteTime } else { "No existía" }
             Copy-Item -Path $File.FullName -Destination $DestinoCompleto -Force
             $FechaNueva = (Get-Item $DestinoCompleto).LastWriteTime
 
-            # Agrupar archivos por carpeta
             $Carpeta = Split-Path -Path $File.FullName -Parent
-            if (!$ArchivosModificados.ContainsKey($Carpeta)) {
-                $ArchivosModificados[$Carpeta] = @()
-            }
+            if (!$ArchivosModificados.ContainsKey($Carpeta)) { $ArchivosModificados[$Carpeta] = @() }
             $ArchivosModificados[$Carpeta] += @{ Archivo = $File.Name; FechaAntes = $FechaAnterior; FechaAhora = $FechaNueva }
 
-            # Barra de progreso
             $Counter++
-            $PercentComplete = [math]::Round($Counter * (100 / $Files.Count))
-            $Bar = ("█" * ($PercentComplete * $BarLength / 100)) + (" " * ((40 - $PercentComplete * $BarLength / 100)))
-            Write-Host "`r[$Bar] $PercentComplete% completado" -NoNewline
+            $ProgressBar = "█" * [math]::Round(($Counter * $BarLength) / $Files.Count)
+            $Espacios = " " * ($BarLength - $ProgressBar.Length)
+            Write-Host "`r[$ProgressBar$Espacios] $([math]::Round($Counter * (100 / $Files.Count)))% completado" -NoNewline
         }
 
-        Write-Host "`r[$Bar] 100% completado" -ForegroundColor $Color
-        Write-Host "`n✅ Respaldo en $CloudName completado!" -ForegroundColor $Color
+        Write-Host "`r[$('█' * 40)] 100% completado" -ForegroundColor $Color
+        Write-Host "`n✅ Respaldo en ${CloudName} completado!" -ForegroundColor $Color
 
-        # ==============================
-        # 📂 Mostrar archivos modificados agrupados por carpeta
-        # ==============================
+        # 📂 Mostrar archivos respaldados agrupados por carpeta
         Write-Host "`n📂 Archivos modificados en ${CloudName}:" -ForegroundColor $Color
         Write-Host "--------------------------------------------------" -ForegroundColor $Color
         foreach ($Carpeta in $ArchivosModificados.Keys) {
-            Write-Host "`n📂 Carpeta: $Carpeta" -ForegroundColor Yellow
+            Write-Host "`n📂 Carpeta: $(Split-Path -Path $Carpeta -Leaf)" -ForegroundColor Yellow
             Write-Host "--------------------------------------------------" -ForegroundColor Yellow
             "{0,-40} {1,-25} {2,-25}" -f "Archivo", "Fecha Original", "Fecha Reemplazo" | Write-Host -ForegroundColor White
             Write-Host "--------------------------------------------------" -ForegroundColor Yellow
@@ -144,35 +135,18 @@ function Copy-WithProgress($DestinationPath, $CloudName) {
         }
 
     } catch {
-        Write-Host "`n⚠ Error durante la copia en $CloudName." -ForegroundColor Red
+        Write-Host "`n⚠ Error en respaldo: $_" -ForegroundColor Red
+        $Errores += $_.Exception.Message
     }
 }
 
-# ==============================
 # 🚀 Ejecutar respaldo en todas las ubicaciones
-# ==============================
-foreach ($Destino in $DestinationPaths) {
-    Copy-WithProgress $Destino $DestinoColores[$Destino].Nombre
-}
+foreach ($Destino in $DestinoColores.Keys) { Copy-WithProgress $Destino }
 
+Write-Host "`n⚠ Archivos con errores: $($Errores.Count)" -ForegroundColor Red
 
+if ($Errores.Count -eq 0) { Write-Host "`n✅ Todos los archivos fueron respaldados correctamente." -ForegroundColor Green }
 
-# ==============================
-# 📌 Mostrar archivos con errores
-# ==============================
-Write-Host "`n--------------------------------------------------" -ForegroundColor Red
-Write-Host "⚠ Archivos con errores: $($Errores.Count)" -ForegroundColor Red
-
-if ($Errores.Count -eq 0) {
-    Write-Host "`n✅ Todos los archivos fueron respaldados correctamente." -ForegroundColor Green
-} else {
-    $Errores | ForEach-Object { Write-Host $_ }
-}
-
-# ==============================
-# 🔚 Finalización del script
-# ==============================
 Write-Host "`n==================================================" -ForegroundColor Magenta
 Write-Host "🔹 Presione Enter para salir..." -ForegroundColor Magenta
-Write-Host "==================================================" -ForegroundColor Magenta
 Read-Host | Out-Null
