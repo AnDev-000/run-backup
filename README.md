@@ -71,6 +71,21 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 
 ---
 
+## 📥 Descargar la última versión
+
+La versión más reciente de **RunBackup** está disponible en la sección de Releases.  
+Puedes descargar los archivos ejecutables desde el siguiente enlace:
+
+🔹 [Descargar RunBackup v2.1.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.1.0)
+
+Para descargar e instalar:
+1. Haz clic en el enlace de descarga.
+2. Descarga los archivos `RunBackup.ps1` y `RunBackup.bat`.
+3. Configura las rutas en `RunBackup.ps1` según tus necesidades.
+4. Ejecuta el respaldo con PowerShell o simplemente haz doble clic en `RunBackup.bat`.
+
+---
+
 ## 📌 Características clave
 
 ### 🔹 Visualización clara del proceso de respaldo
