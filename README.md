@@ -50,6 +50,18 @@ Hacer el respaldo automático más **transparente**, **visual** y **seguro**, pa
 
 ## 🆕 Nuevas mejoras agregadas
 
+### 🚀 Mejoras del 28 de mayo de 2025
+Con la actualización más reciente, se han incorporado nuevas mejoras que optimizan el respaldo y la configuración del usuario:
+
+- ✅ **Validación avanzada de rutas:** ahora el script separa los destinos válidos de los inválidos e informa claramente los errores.
+- ✅ **Asignación de colores consistente:** los colores de cada destino se mantienen uniformes a lo largo de la ejecución.
+- ✅ **Reporte final mejorado:** se agrupan los archivos respaldados por destino y carpeta, mostrando un informe más detallado.
+- ✅ **Uso de variables placeholder en la configuración:** las rutas de origen y destino se presentan como `"REEMPLAZA_CON_TU_RUTA_..."`, facilitando su edición.
+- ✅ **Nuevo archivo RunBackup.bat:** permite ejecutar el script con doble clic, sin necesidad de abrir PowerShell manualmente.
+
+---
+
+### 🚀 Mejoras del 27 de mayo de 2025
 Durante el desarrollo de RunBackup v2, se añadieron nuevas características que no estaban en los objetivos iniciales, pero mejoran la experiencia del respaldo:
 
 - ✅ Diferenciación de servicios en la nube con íconos (☁ OneDrive, iCloud).
@@ -77,13 +89,48 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 
 ---
 
-## 🚀 Cómo usar RunBackup v2
+## 📌 Configuración de las rutas
 
-1. 🔹 Descarga el script `RunBackup.ps1` desde el repositorio.
-2. 🔹 Edita el archivo para definir tu ruta de origen y destinos de respaldo.
-3. 🔹 Ejecuta el script en Windows PowerShell con:
+Antes de ejecutar el script, define las rutas de **origen** y **destino**:
 
 ```powershell
-.\RunBackup.ps1
+# 📂 Ruta de origen: carpeta que deseas respaldar
+$SourcePath = "C:\Users\TuUsuario\Documents"
+
+# 📌 Rutas de destino: carpetas donde se guardará el respaldo
+$DestinationPaths = @(
+    "D:\Respaldo\Carpeta1",
+    "E:\Respaldo\Carpeta2"
+)
 ```
 
+### Instrucciones
+
+1. **Modifica `$SourcePath`**  
+   Sustituye `C:\Users\TuUsuario\Documents` por la ruta completa de la carpeta que quieres respaldar.
+
+2. **Configura `$DestinationPaths`**  
+   - Añade una o más rutas entre comillas, separadas por comas.  
+   - Cada ruta debe comenzar con la letra de la unidad seguida de `:\` (p. ej. `D:\Respaldo\Carpeta1`).  
+   - Puedes incluir tantos destinos como necesites.
+
+3. Guarda los cambios en el script.
+
+---
+
+## 🚀 Cómo usar RunBackup v2
+
+1. **Descarga** los archivos desde el repositorio:  
+   - `RunBackup.ps1`  
+   - `RunBackup.bat`
+
+2. **Configura** las rutas editando la sección **Configuración de las rutas** en `RunBackup.ps1`.
+
+3. **Ejecuta** el respaldo:
+
+   ```powershell
+   # Desde PowerShell
+   .\RunBackup.ps1
+   ```
+
+   O simplemente haz doble clic en `RunBackup.bat` para ejecutarlo sin complicaciones.
