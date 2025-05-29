@@ -91,11 +91,17 @@ Puedes descargar los archivos ejecutables desde el siguiente enlace:
 
 🔹 [Descargar RunBackup v2.1.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.1.0)
 
-### Instrucciones
+---
 
-1. Descarga los archivos `RunBackup.ps1` y `RunBackup.bat`.  
-2. Configura las rutas en `RunBackup.ps1` según tus necesidades.  
-3. Ejecuta el respaldo desde PowerShell o haciendo doble clic en `RunBackup.bat`.
+## 📖 Instrucciones
+
+1. **Descarga** los archivos `RunBackup.ps1` y `RunBackup.bat` desde la sección de Releases.
+2. **Configura** las rutas de respaldo en `RunBackup.ps1` modificando las variables `$SourcePath` y `$DestinationPaths` según tus necesidades.
+3. **Ejecuta** el script desde PowerShell o haz doble clic en `RunBackup.bat` para correrlo automáticamente.
+
+🔁 **Automatización:**  
+Si deseas automatizar la ejecución del respaldo, puedes configurar una tarea en Windows usando el Programador de Tareas (Task Scheduler).
+consulta la guía 👉 [Automatización con Task Scheduler](docs/TaskScheduler.md).
 
 ---
 
@@ -111,14 +117,6 @@ $DestinationPaths = @(
     "E:\Respaldo\Carpeta2"
 )
 ```
-
----
-
-### Instrucciones
-
-1. Modifica `$SourcePath` por la ruta de la carpeta que quieres respaldar.
-2. Configura `$DestinationPaths` con una o más rutas de respaldo.
-3. Guarda los cambios en el script.
 
 ---
 
@@ -216,11 +214,10 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 
 ---
 
-
 ### 🔄 Objetivos para la próxima versión (**V2.2.0**, en desarrollo)
 
 - ❌ Soporte para **español, inglés y japonés**, con opción de expandir a otros idiomas.  
-- ❌ Documentación en `TaskScheduler.md` para programar el script automáticamente.  
+- ✔️ Documentación en `TaskScheduler.md` para programar el script automáticamente.  
 - ❌ Notificación en el **Centro de Windows** tras completar el respaldo.  
 - ❌ Creación de la carpeta `logs_RunBackupV2` con historial de hasta 5 registros.  
 - ❌ Implementación del **modo incremental**, evitando copias innecesarias.  
