@@ -89,7 +89,7 @@ Este script fue creado con un propósito muy concreto: automatizar respaldos de 
 La versión más reciente de **RunBackup** está disponible en la sección de Releases.  
 Puedes descargar los archivos ejecutables desde el siguiente enlace:
 
-🔹 [Descargar RunBackup v2.1.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.1.0)
+🔹 [Descargar RunBackup v2.1.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.1.1)
 
 ---
 
