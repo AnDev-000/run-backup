@@ -156,11 +156,15 @@ Creado por AnDev como un ejercicio práctico de scripting simple y automatizaci�
 
 ---
 
+
+
 <div align="center">
 
 # 🧱 SECCIÓN TÉCNICA Y DE DESARROLLO
 
 </div>
+
+
 
 ---
 
@@ -188,6 +192,11 @@ Hacer el respaldo automático más **transparente**, **visual** y **seguro**, pa
 ---
 
 ## 🆕 Ultimas mejoras agregadas
+
+🚀 Mejoras del 29 de mayo de 2025, ver 2.1.1
+
+- ✅ **Externalización de textos:** Se han reemplazado las cadenas fijas por variables leídas desde languages.ps1, facilitando futuras expansiones al soporte multilingüe.
+- ✅ **Empaquetado optimizado:** Se generó un archivo ZIP que conserva la estructura completa (incluyendo la carpeta lang) para asegurar que los usuarios obtengan todos los archivos necesarios sin errores.
 
 ### 🚀 Mejoras del 28 de mayo de 2025, ver 2.1.0
 Con la actualización más reciente, se han incorporado nuevas mejoras que optimizan el respaldo y la configuración del usuario:
