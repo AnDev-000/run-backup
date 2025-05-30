@@ -216,13 +216,13 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 
 ### 🔄 Objetivos para la próxima versión (**V2.2.0**, en desarrollo)
 
-- ❌ Soporte para **español, inglés y japonés**, con opción de expandir a otros idiomas.  
+- ✔️ Soporte para **español, inglés y japonés**, con opción de expandir a otros idiomas.  
 - ✔️ Documentación en `TaskScheduler.md` para programar el script automáticamente.  
 - ❌ Notificación en el **Centro de Windows** tras completar el respaldo.  
 - ❌ Creación de la carpeta `logs_RunBackupV2` con historial de hasta 5 registros.  
 - ❌ Implementación del **modo incremental**, evitando copias innecesarias.  
 - ❌ Protección contra errores por múltiples rutas en `$SourcePath`, con mensaje claro.  
-
+- ❌ Implementación de Tabla Consolidada en CSV para logs estructurados y exportables.
 
 ### ✅ Objetivos cumplidos en **Versión 2.1.0**
 
