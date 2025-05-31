@@ -193,8 +193,15 @@ Hacer el respaldo automático más **transparente**, **visual** y **seguro**, pa
 
 ## 🆕 Ultimas mejoras agregadas
 
-### 🚀 Mejoras del 29 de mayo de 2025, ver 2.1.1
+### 🚀 Mejoras del 30 de mayo de 2025, ver 2.1.2
+- ✅ **Refactorización completa y reestructuración del código:** Se modularizó el script en funciones reutilizables para mejorar la legibilidad y mantenimiento.
+- ✅ **Uso de composite formatting:** Se sustituyó la concatenación manual de cadenas por placeholders, garantizando una salida consistente y facilitando futuras actualizaciones.
+- ✅ **Remodelación de la interfaz visual:** Se implementaron funciones dedicadas para la impresión de separadores y otros elementos gráficos, optimizando el formato de salida en consola.
+- ✅ **Protección contra errores en `$SourcePath`:** Se detecta y muestra un mensaje claro al usuario cuando se definen múltiples o rutas erróneas, evitando cierres abruptos.
+- ✅ **Optimización del soporte multilingüe:** Se extendió y optimizó el archivo `languages.ps1`, incorporando textos para español, inglés, japonés y alemán de forma nativa.
+- ✅ **Documentación interna mejorada:** Se actualizaron los comentarios y se reestructuró la documentación del código para facilitar futuras ampliaciones.
 
+### 🚀 Mejoras del 29 de mayo de 2025, ver 2.1.1
 - ✅ **Externalización de textos:** Se han reemplazado las cadenas fijas por variables leídas desde languages.ps1, facilitando futuras expansiones al soporte multilingüe.
 - ✅ **Empaquetado optimizado:** Se generó un archivo ZIP que conserva la estructura completa (incluyendo la carpeta lang) para asegurar que los usuarios obtengan todos los archivos necesarios sin errores.
 
@@ -230,7 +237,7 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 - ❌ Notificación en el **Centro de Windows** tras completar el respaldo.  
 - ❌ Creación de la carpeta `logs_RunBackupV2` con historial de hasta 5 registros.  
 - ❌ Implementación del **modo incremental**, evitando copias innecesarias.  
-- ❌ Protección contra errores por múltiples rutas en `$SourcePath`, con mensaje claro.  
+- ✔️ Protección contra errores por múltiples rutas en `$SourcePath`, con mensaje claro.  
 - ❌ Implementación de Tabla Consolidada en CSV para logs estructurados y exportables.
 
 ### ✅ Objetivos cumplidos en **Versión 2.1.0**
