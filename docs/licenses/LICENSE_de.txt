@@ -1,0 +1,9 @@
+MIT-Lizenz
+
+Copyright (c) 2025 AnDev-000
+
+Hiermit wird unentgeltlich jeder Person, die eine Kopie der Software und der zugehörigen Dokumentationsdateien (die "Software") erhält, die Erlaubnis erteilt, uneingeschränkt mit der Software zu handeln, einschließlich und ohne Einschränkung des Rechts, sie zu benutzen, kopieren, verändern, zusammenzuführen, veröffentlichen, verbreiten, unterlizenzieren und/oder zu verkaufen, und Personen, denen die Software bereitgestellt wird, diese Rechte zu verschaffen, unter den folgenden Bedingungen:
+
+Der obige Urheberrechtshinweis und dieser Erlaubnishinweis müssen in allen Kopien oder wesentlichen Teilen der Software enthalten sein.
+
+DIE SOFTWARE WIRD OHNE JEGLICHE AUSDRÜCKLICHE ODER STILLSCHWEIGENDE GARANTIEN BEREITGESTELLT, EINSCHLIESSLICH DER GARANTIEN DER MARKTGÄNGIGKEIT, DER EIGNUNG FÜR EINEN BESTIMMTEN ZWECK UND DER NICHTVERLETZUNG. IN KEINEM FALL SIND DIE AUTOREN ODER COPYRIGHTINHABER FÜR ANSPRÜCHE, SCHÄDEN ODER SONSTIGE HAFTUNGEN VERANTWORTLICH, OB IN EINER VERTRAGSKLAGE, EINER UNERLAUBTEN HANDLUNG ODER ANDERS, DIE SICH AUS DER SOFTWARE ODER DER NUTZUNG ODER ANDEREN GESCHÄFTEN MIT DER SOFTWARE ERGEBEN.
