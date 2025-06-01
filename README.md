@@ -1,18 +1,18 @@
 # RunBackup v2 - Respaldo Automático Mejorado
 
-Este script es la evolución del proyecto original **RunBackup**, que automatiza la copia de respaldos para tus archivos importantes.
+Este script es la evolución del proyecto original **[RunBackup](https://github.com/AnDev-000/run-backup/tree/v1)**, que automatiza la copia de respaldos para tus archivos importantes.
 
 ---
 
 ## 🚀 Origen del proyecto  
 
-RunBackup v2 nació por una necesidad muy concreta: **automatizar respaldos rápidos y simples de carpetas específicas**, como la carpeta **savegame del emulador PPSSPP**, hacia una ubicación segura (local o en la nube).  
+RunBackup v2 nació por una necesidad muy concreta: **automatizar respaldos rápidos y simples de carpetas específicas**, hacia una ubicación segura (local o en la nube).  
 
-Como jugador que alternaba entre **PC y iPhone**, cada vez que terminaba de jugar, tenía que **ir manualmente a la carpeta del savegame, copiar los archivos y pegarlos en la nube** para poder seguir en otro dispositivo. Esto se convirtió en un proceso **tedioso y repetitivo**.  
+Como jugador que alternaba entre **PC y Movil**, cuando usaba algun emulador me encontraba con el problema de que para respaldar mis partidas tenia que **ir manualmente a la carpeta del emulador en donde se almacenan las partidas (SAVEGAMES), copiar los archivos y pegarlos en una nube para poder seguir en otro dispositivo**. Esto se convirtió en un proceso **tedioso y repetitivo**, y a pesar que algunos emulador ofrecen solucion para la nube, no todos lo hacen y en su mayoria tampoco permite guardarlos en mas de una ruta.  
 
-Pensando en una solución más práctica, creé este script para **automatizar el respaldo** y asegurarme de que mis partidas siempre estuvieran sincronizadas sin perder tiempo en copias manuales.  
+Pensando en una solución más práctica, creé este script a partir de **[RunBackup v1](https://github.com/AnDev-000/run-backup/tree/v1)** para **automatizar el respaldo** y asegurarme de que mis partidas siempre estuvieran sincronizadas sin perder tiempo en copias manuales.  
 
-Aunque lo diseñé inicialmente para este propósito, pronto me di cuenta de que **podía ser útil para muchas más cosas**.  
+Aunque lo diseñé inicialmente para este propósito, **pense que podria ser de útilidad para muchas más cosas**, asi que he decidido compartirlo y mejorarlo para hacerlo una herramienta mas completa pero sin perder su practicidad.  
 
 ---
 
@@ -28,7 +28,7 @@ Aunque lo diseñé inicialmente para este propósito, pronto me di cuenta de que
 ---
 
 📌 ¿Cuándo usar este script?
-Este script fue creado con un propósito muy concreto: automatizar respaldos de manera rápida y simples de carpetas específicas, hacia una ubicación segura (local o en la nube). Está pensado para tareas repetitivas donde no se requiere una solución robusta o compleja, sino algo que simplemente funcione.
+Este script fue creado con un propósito muy puntual: automatizar respaldos de manera rápida y simples de carpetas específicas, hacia una ubicación segura (local o en la nube). Está **pensado para tareas repetitivas** donde no se requiere una solución robusta o compleja, sino algo que simplemente funcione.
 
 👉 Casos de uso recomendados:
 
@@ -89,7 +89,7 @@ Este script fue creado con un propósito muy concreto: automatizar respaldos de 
 La versión más reciente de **RunBackup** está disponible en la sección de Releases.  
 Puedes descargar los archivos ejecutables desde el siguiente enlace:
 
-🔹 [Descargar RunBackup v2.1.1](https://github.com/AnDev-000/run-backup/releases/tag/v2.1.1)
+🔹 [Descargar RunBackup v2.1.3](https://github.com/AnDev-000/run-backup/releases/tag/v2.1.3)
 
 ---
 
@@ -193,6 +193,12 @@ Hacer el respaldo automático más **transparente**, **visual** y **seguro**, pa
 
 ## 🆕 Ultimas mejoras agregadas
 
+### 🚀  Mejoras del 01 de junio de 2025, ver 2.1.3
+- ✅ **Refactorización y estandarización del código:** Se renombraron variables y funciones a inglés (manteniendo comentarios en español) y se externalizaron todos los textos y símbolos a languages.ps1.
+- ✅ **Extracción completa de textos y símbolos:** RunBackup.ps1 ahora utiliza los contenidos de languages.ps1 para garantizar uniformidad y evitar problemas visuales.
+- ✅ **Modo incremental implementado:** Solo se copian aquellos archivos que requieren actualización; los existentes se marcan con "Ya existe" y se excluyen del total de copiados.
+- ✅ **Exportación de logs en CSV y JSON:** Se genera una tabla consolidada de respaldos, exportándose en formatos CSV y JSON para facilitar su análisis.
+
 ### 🚀 Mejoras del 30 de mayo de 2025, ver 2.1.2
 - ✅ **Refactorización completa y reestructuración del código:** Se modularizó el script en funciones reutilizables para mejorar la legibilidad y mantenimiento.
 - ✅ **Uso de composite formatting:** Se sustituyó la concatenación manual de cadenas por placeholders, garantizando una salida consistente y facilitando futuras actualizaciones.
@@ -227,7 +233,7 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 ---
 
 ## 🧩 Evolución del proyecto
-
+Este proyecto continúa evolucionando y se encuentra en constante mejora. Se han separado completamente el código (lógica) y los textos/símbolos, permitiendo que RunBackup.ps1 lea toda la configuración desde languages.ps1 para evitar inconsistencias y mejorar la mantenibilidad. ¡Seguimos trabajando para incorporar notificaciones en el Centro de Windows y la gestión avanzada de logs!
 ---
 
 ### 🔄 Objetivos para la próxima versión (**V2.2.0**, en desarrollo)
@@ -236,9 +242,9 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 - ✔️ Documentación en `TaskScheduler.md` para programar el script automáticamente.  
 - ❌ Notificación en el **Centro de Windows** tras completar el respaldo.  
 - ❌ Creación de la carpeta `logs_RunBackupV2` con historial de hasta 5 registros.  
-- ❌ Implementación del **modo incremental**, evitando copias innecesarias.  
+- ✔️ Implementación del **modo incremental**, evitando copias innecesarias.  
 - ✔️ Protección contra errores por múltiples rutas en `$SourcePath`, con mensaje claro.  
-- ❌ Implementación de Tabla Consolidada en CSV para logs estructurados y exportables.
+- ✔️ Implementación de Tabla Consolidada en CSV para logs estructurados y exportables.
 
 ### ✅ Objetivos cumplidos en **Versión 2.1.0**
 
