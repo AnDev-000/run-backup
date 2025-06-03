@@ -1,29 +1,53 @@
-﻿# ==============================
-# 🚀 RunBackupV2 - Auto Backup Script
-# ==============================
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+﻿# Comprueba e instala BurntToast si no está disponible
+if (-not (Get-Module -ListAvailable -Name BurntToast)) {
+    # Spinner para mostrar animación durante la instalación silenciosa
+    $spinner = "|/-\"
+    
+    # Configuración para ejecutar la instalación en un proceso separado
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"Install-Module -Name BurntToast -Scope CurrentUser -Force -AllowClobber`""
+    $psi.CreateNoWindow = $true
+    $psi.UseShellExecute = $false
 
+    $process = [System.Diagnostics.Process]::Start($psi)
+
+    # Mientras se instala, se muestra el spinner
+    while (-not $process.HasExited) {
+        for ($i = 0; $i -lt $spinner.Length; $i++) {
+            Write-Host -NoNewline ("`r{0}" -f $spinner[$i])
+            Start-Sleep -Milliseconds 150
+        }
+    }
+
+    Write-Host "`r" -NoNewline
+    Import-Module BurntToast -ErrorAction Stop
+}
+
+# -------------------------------------------------------------------
+# Cargar archivo de idiomas y definición de símbolos - Load language file and symbol definition
+# -------------------------------------------------------------------
 . "$PSScriptRoot\lang\languages.ps1"
-$currentLanguage = "spanish"              # Comentario: se mantiene el idioma en español (solo los mensajes se traducen)
+$currentLanguage = "spanish"              # Opciones: "spanish","english", japanese, german.
 $msg = $languages[$currentLanguage]
-# Se asume que $globalSymbols (con keys "bold", "colon", "ellipsis", "folder", "cloud", "warning", "success", "error", "sidekick", "reload", "storage") ya está definido en languages.ps1
 
 # ==============================
-# Configuration of Paths (Configuración de rutas)
+# CONFIGURACIÓN DE RUTAS (Configuration of Paths)
 # ==============================
 $sourcePath = "REEMPLAZA_CON_TU_RUTA_DE_ORIGEN"
 $destinationPaths = @(
-    "REEMPLAZA_CON_TU_RUTA_DE_DESTINO1",
-    "REEMPLAZA_CON_TU_RUTA_DE_DESTINO2",
-    "REEMPLAZA_CON_TU_RUTA_DE_DESTINO3"
+    "REEMPLAZA_CON_TU_RUTA_DE_DESTINO",
+    "REEMPLAZA_CON_TU_RUTA_DE_DESTINO",
+    "REEMPLAZA_CON_TU_RUTA_DE_DESTINO"
 )
 
+# Inicializar arrays globales para logs y errores
 $global:logEntries = @()
 $global:backupFailures = @()
 
-# ------------------------------------
-# Validation and Formatting Functions (Funciones de validación y formateo)
-# ------------------------------------
+# ----------------------------------------------------
+# FUNCIONES DE VALIDACIÓN Y FORMATEO (utilidades) - VALIDATION AND FORMATTING FUNCTIONS (utilities)
+# ----------------------------------------------------
 function Validate-PathCustom {
     param([string]$path)
     return ($path -match '^[A-Za-z]:[\\/].+') -and (Test-Path $path)
@@ -56,15 +80,18 @@ function Get-ReplacementDateDisplay {
 
 function Get-DestinationColor {
     param([string]$dest)
-    if ($dest -match "OneDrive") { return "Blue" }
-    elseif ($dest -match "iCloudDrive") { return "Cyan" }
+    if ($dest -match "OneDrive") {
+        return "Blue"
+    }
+    elseif ($dest -match "iCloudDrive") {
+        return "Cyan"
+    }
     else {
         $cols = @("Yellow", "Magenta", "DarkYellow", "Green", "White")
         return $cols[(Get-Random -Maximum $cols.Count)]
     }
 }
 
-# Esta función retorna un objeto con Icon y Name para el destino. Se agrega explícitamente dos espacios para los iconos de nube.
 function Get-DisplayNameForDestination {
     param(
         [string]$dest,
@@ -83,8 +110,11 @@ function Get-DisplayNameForDestination {
 }
 
 function Format-IconText {
-    param([string]$Icon, [string]$Text)
-    return "{0,-2} {1}" -f $Icon, $Text
+    param(
+        [string]$Icon, 
+        [string]$Text
+    )
+    return $Icon + " " + $Text
 }
 
 function Write-IconMessage {
@@ -95,7 +125,12 @@ function Write-IconMessage {
         [switch]$NoNewline
     )
     $formatted = Format-IconText $Icon $Text
-    if ($NoNewline) { Write-Host $formatted -ForegroundColor $Color -NoNewline } else { Write-Host $formatted -ForegroundColor $Color }
+    if ($NoNewline) {
+        Write-Host $formatted -ForegroundColor $Color -NoNewline
+    }
+    else {
+        Write-Host $formatted -ForegroundColor $Color
+    }
 }
 
 function Print-Separator {
@@ -117,12 +152,12 @@ function Update-ProgressBar {
     $filled = "█" * [Math]::Round(($Counter * $BarLength) / $TotalFiles)
     $empty = " " * ($BarLength - $filled.Length)
     $percent = [Math]::Round(($Counter * 100) / $TotalFiles)
-    return ("[{0}{1}] {2,3}% " -f $filled, $empty, $percent) + $msg.progressCompleted
+    return ("[" + $filled + $empty + "] " + $percent + "% " + $msg.progressCompleted)
 }
 
-# ------------------------------------
-# Initial Validations (Validaciones iniciales)
-# ------------------------------------
+# ----------------------------------------------------
+# VALIDACIONES INICIALES DE LAS RUTAS - Initial Paths Validation
+# ----------------------------------------------------
 $sourceError = $false
 if ($sourcePath -is [array]) {
     $sourceError = $true
@@ -150,14 +185,11 @@ foreach ($d in $destinationPaths) {
         $validDestinations += $obj
     }
     else {
-        $destinationWarnings += ($msg.errorInvalidDestination + " '" + $d + "'")
+        $destinationWarnings += ($globalSymbols.dash + " " + $msg.destSingular + " " + $idx.ToString() + $globalSymbols.colon + " " + $msg.errorInvalidDestination + " '" + $d + "'")
     }
     $idx++
 }
 
-# ------------------------------------
-# INITIAL PRESENTATION (Presentación inicial)
-# ------------------------------------
 function Show-InitialPresentation {
     Write-Host ""
     Print-Separator "=" ([Console]::WindowWidth) "Cyan"
@@ -165,52 +197,69 @@ function Show-InitialPresentation {
     Print-Separator "=" ([Console]::WindowWidth) "Cyan"
     Write-Host ""
     
-    # Mostrar etiqueta "Source:" con colon y el espacio agregado explícitamente
+    # Mostrar ruta de origen
     Write-IconMessage $globalSymbols.folder ($msg.labelSource + $globalSymbols.colon) "Gray"
     Write-Host ""
-    if ($sourceError) { $originColor = "Red" } else { $originColor = "White" }
+    if ($sourceError) {
+        $originColor = "Red"
+    }
+    else {
+        $originColor = "White"
+    }
     Write-Host ("   └── " + $sourcePresentation) -ForegroundColor $originColor
     Write-Host ""
     
-    # Mostrar etiqueta "Destination(s):" con colon y el espacio agregado explícitamente
+    # Mostrar rutas de destino
     Write-IconMessage $globalSymbols.storage ($msg.destPlural + $globalSymbols.colon) "Gray"
     Write-Host ""
     $i = 1
     foreach ($dest in $destinationPaths) {
         if ($dest -match '^[A-Za-z]:[\\/].+') {
             $obj = $validDestinations | Where-Object { $_.Index -eq $i }
-            if ($obj) { $color = $obj.Color } else { $color = Get-DestinationColor $dest }
-            $display = Get-DisplayNameForDestination $dest -Color $color
-            Write-Host ("{0,2} : {1,-2} {2}" -f $i, $display.Icon, $dest) -ForegroundColor $color
+            if ($obj) {
+                $color = $obj.Color
+                $icon = (Get-DisplayNameForDestination $dest -Color $color).Icon
+            }
+            else {
+                $color = Get-DestinationColor $dest
+                $icon = (Get-DisplayNameForDestination $dest -Color $color).Icon
+            }
+            Write-Host ( $i.ToString() + " " + $globalSymbols.colon + " " + $icon + " " + $dest ) -ForegroundColor $color
         }
         else {
-            Write-Host ("{0,2} : '{1}'" -f $i, $dest) -ForegroundColor "Red"
+            Write-Host ( $i.ToString() + " " + $globalSymbols.colon + " " + $globalSymbols.error + " '" + $dest + "'" ) -ForegroundColor "Red"
         }
         $i++
     }
+    
     if ($validDestinations.Count -eq 0) {
         Write-Host ("   " + $msg.errorNoDestination) -ForegroundColor Red
     }
+    
     if (-not $sourceError -and $validDestinations.Count -gt 0) {
         Write-Host ""
         Print-Separator "-" ([Console]::WindowWidth) "Yellow"
         Write-Host ""
     }
 }
-# Fin Show-InitialPresentation
 
-# ------------------------------------
-# PROCESSES AND FINAL OUTPUT (Procesos y salida final)
-# ------------------------------------
 function Copy-WithProgress {
     param(
         [string]$DestinationPath,
         [int]$DestIndex,
         [string]$Color
     )
-    if (-not $Color) { $Color = Get-DestinationColor $DestinationPath }
-    # Para destinos en la nube, concatenamos 2 espacios al icono (ya que se requiere visualmente)
-    $IconForDest = if ($DestinationPath -imatch "OneDrive" -or $DestinationPath -imatch "iCloudDrive") { $globalSymbols.cloud + "  " } else { $globalSymbols.folder }
+    if (-not $Color) {
+        $Color = Get-DestinationColor $DestinationPath
+    }
+    
+    $IconForDest = if ($DestinationPath -imatch "OneDrive" -or $DestinationPath -imatch "iCloudDrive") {
+        $globalSymbols.cloud + " "
+    }
+    else {
+        $globalSymbols.folder
+    }
+    
     $Files = Get-ChildItem -Path $sourcePath -Recurse -File
     $TotalFiles = $Files.Count
     if ($TotalFiles -eq 0) {
@@ -251,6 +300,7 @@ function Copy-WithProgress {
             else {
                 $relativeFolder = $File.DirectoryName
             }
+            # Crear entrada de log para el archivo procesado
             $logEntry = [PSCustomObject]@{
                 Destination     = $DestinationPath
                 Subfolder       = $relativeFolder
@@ -260,10 +310,10 @@ function Copy-WithProgress {
                 State           = $State
             }
             $global:logEntries += $logEntry
+            
             $Counter++
             $progressBar = Update-ProgressBar $IconForDest $Counter $TotalFiles $BarLength
-            # Se usa el índice del destino concatenado con dos espacios "  " (ya que eso es lo que se desea) en el progressText
-            $progressText = $DestIndex.ToString() + $globalSymbols.colon + " " + $progressBar
+            $progressText = $DestIndex.ToString() + $globalSymbols.colon + " " + $IconForDest + " " + $progressBar
             if ($Counter -eq 1) {
                 Write-Host $progressText -ForegroundColor $Color
             }
@@ -307,11 +357,13 @@ function Show-BackupCompleted {
         }
     }
     if ($completedDestinations.Count -gt 0) {
-        if ($destinationWarnings.Count -eq 0) { Print-Separator "-" ([Console]::WindowWidth) "Yellow" }
+        if ($destinationWarnings.Count -eq 0) {
+            Print-Separator "-" ([Console]::WindowWidth) "Yellow"
+        }
         Write-Host ($globalSymbols.success + " " + $msg.backupCompletedHeader + $globalSymbols.colon) -ForegroundColor Green
         foreach ($item in $completedDestinations) {
             $display = Get-DisplayNameForDestination $item.Destination -Color $item.Color
-            $line = "- " + $msg.destSingular + " " + $item.Index + $globalSymbols.colon + " " + $display.Icon + " " + $display.Name
+            $line = $globalSymbols.dash + " " + $msg.destSingular + " " + $item.Index.ToString() + $globalSymbols.colon + " " + $display.Icon + " " + $display.Name
             Write-Host $line -ForegroundColor $item.Color
         }
         Print-Separator "-" ([Console]::WindowWidth) "Yellow"
@@ -323,13 +375,23 @@ function Show-ConsolidatedTable {
         [string]$DestinationPath,
         [array]$Entries
     )
-    $obj = $validDestinations | Where-Object { $_.Destination -eq $DestinationPath }
-    if ($obj) { $color = $obj.Color } else { $color = Get-DestinationColor $DestinationPath }
-    $display = Get-DisplayNameForDestination $DestinationPath -Color $color
+    $destObj = $validDestinations | Where-Object { $_.Destination -eq $DestinationPath } | Select-Object -First 1
+    if ($destObj) {
+        $color = $destObj.Color
+        $display = Get-DisplayNameForDestination $DestinationPath -Color $color
+        $headerDestino = $msg.destSingular + " " + $destObj.Index.ToString() + $globalSymbols.colon + " " + $DestinationPath
+    }
+    else {
+        $color = Get-DestinationColor $DestinationPath
+        $display = Get-DisplayNameForDestination $DestinationPath -Color $color
+        $headerDestino = $msg.destSingular + $globalSymbols.colon + " " + $DestinationPath
+    }
+    
     Print-Separator "=" ([Console]::WindowWidth) $display.Color
-    Write-Host (Format-IconText $display.Icon ("Destino" + $globalSymbols.colon + " " + $DestinationPath)) -ForegroundColor $display.Color
+    Write-Host (Format-IconText $display.Icon $headerDestino) -ForegroundColor $display.Color
     Print-Separator "=" ([Console]::WindowWidth) $display.Color
     Write-Host ""
+    
     $headerDateOriginal = $msg.date + " " + $msg.originalLabel
     $headerDateReplacement = $msg.date + " " + $msg.replacementLabel
     $hdr = "{0,-15} {1,-20} {2,-20} {3,-20} {4,-10}" -f $msg.tableHeader1, $msg.tableHeader2, $headerDateOriginal, $headerDateReplacement, $msg.tableHeader5
@@ -344,61 +406,96 @@ function Show-ConsolidatedTable {
     Write-Host ""
 }
 
-# ----------------------------------------------------
-# MAIN FLOW (Flujo principal)
-# ----------------------------------------------------
-Show-InitialPresentation
+try {
+    # Mostrar presentación inicial
+    Show-InitialPresentation
+    
+    if ($sourceError -or ($validDestinations.Count -eq 0)) {
+        Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+        if ($sourceError) {
+            Write-Host ($globalSymbols.dash + " " + $msg.labelSource + $globalSymbols.colon + " " + $msg.errorNoSource) -ForegroundColor Red
+        }
+        if ($validDestinations.Count -eq 0) {
+            Write-Host ($globalSymbols.dash + " " + $msg.destSingular + " 1" + $globalSymbols.colon + " " + $msg.errorNoDestination) -ForegroundColor Red
+        }
+        Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+        Write-IconMessage $globalSymbols.sidekick $msg.exitPrompt "Magenta"
+        $global:logEntries += [PSCustomObject]@{
+            Destination     = "N/A"
+            Subfolder       = "N/A"
+            FileName        = "N/A"
+            OriginalDate    = (Get-Date).ToString("dd-MM-yy HH:mm:ss")
+            ReplacementDate = "No ejecutado"
+            State           = "Error: Rutas de origen/destino inválidas."
+        }
+        $proceed = $false
+    }
+    else {
+        $proceed = $true
+        Process-Backup
+        
+        $tempLogFile = Join-Path $PSScriptRoot "extras\Logs\Generate-Logs.ps1"
+        if (-not (Test-Path $tempLogFile)) {
+            $destinationWarnings += ($globalSymbols.dash + " " + $msg.logLabel + $globalSymbols.colon + " " + $msg.errorMissingLogFile)
+        }
+        
+        Show-Warnings
+        Show-BackupCompleted
+        
+        foreach ($destObj in $validDestinations) {
+            Show-ConsolidatedTable -DestinationPath $destObj.Destination -Entries $global:logEntries
+        }
+    }
+    
+    if ($proceed -eq $true) {
+        $existingCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_exists }).Count
+        $copiedCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_copied }).Count
+        $errorCount = $global:backupFailures.Count
 
-if ($sourceError -or ($validDestinations.Count -eq 0)) {
-    Print-Separator "=" ([Console]::WindowWidth) "Magenta"
-    if ($sourceError) {
-        Write-Host ("- " + $msg.labelSource + $globalSymbols.colon + " " + $msg.errorNoSource) -ForegroundColor Red
+        Write-Host ""
+        Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+        Write-Host ($msg.backupSummary + $globalSymbols.colon) -ForegroundColor White
+        Write-Host ($globalSymbols.dash + " " + $msg.summaryLine1 + $globalSymbols.colon + " " + $existingCount) -ForegroundColor Yellow
+        Write-Host ($globalSymbols.dash + " " + $msg.summaryLine2 + $globalSymbols.colon + " " + $copiedCount) -ForegroundColor Green
+        if ($errorCount -eq 1) { 
+            $errText = $msg.errorSingular 
+        } else { 
+            $errText = $msg.errorPlural 
+        }
+        Write-Host ($globalSymbols.dash + " " + $msg.summaryLine3 + $globalSymbols.colon + " " + $errorCount + " " + $errText) -ForegroundColor Red
+        Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+        Write-Host ""
+        
+        # Integrar notificación de respaldo completado
+        try {
+            Import-Module BurntToast -ErrorAction Stop
+            & "$PSScriptRoot\extras\notifications\templates\SuccessfulBackup.ps1"
+
+        }
+        catch {
+            Write-Host "No se pudo mostrar la notificación de respaldo completado: $($_.Exception.Message)" -ForegroundColor Red
+        }
     }
-    if ($validDestinations.Count -eq 0) {
-        Write-Host ("- " + $msg.destSingular + $globalSymbols.colon + " " + $msg.errorNoDestination) -ForegroundColor Red
+}
+catch {
+    Write-Host ("Se produjo un error: " + $_.Exception.Message) -ForegroundColor Red
+    $global:logEntries += [PSCustomObject]@{
+        Destination     = "N/A"
+        Subfolder       = "N/A"
+        FileName        = "N/A"
+        OriginalDate    = (Get-Date).ToString("dd-MM-yy HH:mm:ss")
+        ReplacementDate = "No ejecutado"
+        State           = "Error: " + $_.Exception.Message
     }
-    Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+}
+finally {
+    $logFile = Join-Path $PSScriptRoot "extras\Logs\Generate-Logs.ps1"
+    if (Test-Path $logFile) {
+        . $logFile
+    }
+    
+    Write-Host ""
     Write-IconMessage $globalSymbols.sidekick $msg.exitPrompt "Magenta"
     Read-Host | Out-Null
-    exit
 }
-
-Process-Backup
-
-Show-Warnings
-Show-BackupCompleted
-
-foreach ($destObj in $validDestinations) {
-    Show-ConsolidatedTable -DestinationPath $destObj.Destination -Entries $global:logEntries
-}
-
-$timestamp = (Get-Date).ToString("yyyyMMdd_HHmm")
-$logFolder = Join-Path $PSScriptRoot "logs_RunBackupV2"
-if (-not (Test-Path $logFolder)) { New-Item $logFolder -ItemType Directory | Out-Null }
-$csvFile = Join-Path $logFolder ("runbackup_" + $timestamp + ".csv")
-$global:logEntries | Export-Csv -Path $csvFile -NoTypeInformation
-$jsonFile = Join-Path $logFolder ("runbackup_" + $timestamp + ".json")
-$global:logEntries | ConvertTo-Json -Depth 3 | Out-File $jsonFile -Encoding UTF8
-
-$existingCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_exists }).Count
-$copiedCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_copied }).Count
-$errorCount = $global:backupFailures.Count
-
-Write-Host ""
-Print-Separator "=" ([Console]::WindowWidth) "Magenta"
-Write-Host ($msg.backupSummary + $globalSymbols.colon) -ForegroundColor White
-Write-Host ("  - " + $msg.summaryLine1 + $globalSymbols.colon + " " + $existingCount) -ForegroundColor Yellow
-Write-Host ("  - " + $msg.summaryLine2 + $globalSymbols.colon + " " + $copiedCount) -ForegroundColor Green
-if ($errorCount -eq 1) { 
-    $errText = $msg.errorSingular 
-}
-else { 
-    $errText = $msg.errorPlural 
-}
-Write-Host ("  - " + $msg.summaryLine3 + $globalSymbols.colon + " " + $errorCount + " " + $errText) -ForegroundColor Red
-Print-Separator "=" ([Console]::WindowWidth) "Magenta"
-Write-Host ""
-
-Print-Separator "=" ([Console]::WindowWidth) "Magenta"
-Write-IconMessage $globalSymbols.sidekick $msg.exitPrompt "Magenta"
-Read-Host | Out-Null
+Pause

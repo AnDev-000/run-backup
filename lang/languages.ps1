@@ -21,6 +21,7 @@ $globalSymbols = @{
     "bold"     = "**"
     "colon"    = ":"
     "ellipsis" = "..."
+    "dash"     = "-"
 }
 
 # ==============================
@@ -87,6 +88,12 @@ $languages = @{
         # ———————————————
         "state_exists"       = "Ya existe"
         "state_copied"       = "Copiado"
+
+        # ==============================
+        # Otros Errores
+        # ==============================
+        "logLabel" = "log"
+        "errorMissingLogFile" = "No se pudo generar el log, ya que falta el archivo 'Generate-Logs.ps1'. Para habilitar la generación de logs, descarga y coloca dicho archivo en la carpeta del proyecto."
     }
     
     "english" = @{
@@ -150,6 +157,12 @@ $languages = @{
         # ———————————————
         "state_exists"       = "Already exists"  # O bien "Exists" según prefieras
         "state_copied"       = "Copied"
+
+        # ==============================
+        # Other Errors
+        # ==============================
+        "logLabel" = "log"
+        "errorMissingLogFile" = "Could not generate the log, as the 'Generate-Logs.ps1' file is missing. To enable log generation, download and place this file in the project folder."
     }
     
     "japanese" = @{
@@ -213,6 +226,12 @@ $languages = @{
         # ———————————————
         "state_exists"       = "既に存在"
         "state_copied"       = "コピー済み"
+
+        # ==============================
+        # その他のエラー (Other Errors)
+        # ==============================
+        "logLabel" = "ログ"
+        "errorMissingLogFile" = "ログを生成できませんでした。'Generate-Logs.ps1'ファイルが欠落しています。ログ生成を有効にするには、このファイルをプロジェクトフォルダにダウンロードして配置してください。"
     }
     
     "german" = @{
@@ -276,5 +295,11 @@ $languages = @{
         # ———————————————
         "state_exists"       = "Bereits vorhanden"
         "state_copied"       = "Kopiert"
+
+        # ==============================
+        # Andere Fehler (Other Errors)
+        # ==============================
+        "logLabel" = "Log"
+        "errorMissingLogFile" = "Das Log konnte nicht generiert werden, da die Datei 'Generate-Logs.ps1' fehlt. Um die Log-Generierung zu aktivieren, laden Sie diese Datei herunter und platzieren Sie sie im Projektordner."
     }
 }
