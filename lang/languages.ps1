@@ -1,14 +1,9 @@
-﻿# languages.ps1
-# ---------------------------------------------------------------------------------
+﻿# ---------------------------------------------------------------------------------
 # Este archivo contiene todas las cadenas de texto utilizadas en RunBackup v2,
 # organizadas por idioma, y una colección global de símbolos/emoticonos.
 # ---------------------------------------------------------------------------------
 
-# ==============================
-# Global Symbols (Simbolos Globales)
-# ==============================
 $globalSymbols = @{
-    # Emoticonos usados en RunBackup (sin espacios adjuntos)
     "folder"   = "📂"
     "cloud"    = "☁"
     "warning"  = "⚠"
@@ -17,154 +12,180 @@ $globalSymbols = @{
     "sidekick" = "🔹"
     "reload"   = "🔄"
     "storage"  = "💾"
-    # Símbolos comunes
     "bold"     = "**"
     "colon"    = ":"
     "ellipsis" = "..."
     "dash"     = "-"
 }
 
-# ==============================
-# Language Strings
-# ==============================
 $languages = @{
     "spanish" = @{
-        # ==============================
+        # -----------------------------
         # Textos Generales
-        # ==============================
-        "titleAutoBackup"    = "INICIANDO RESPALDO AUTOMÁTICO"
-        "labelSource"        = "Origen"
-        "destSingular"       = "Destino"
-        "destPlural"         = "Destino(s)"
+        # -----------------------------
+        "titleAutoBackup"            = "INICIANDO RESPALDO AUTOMÁTICO"
+        "labelSource"                = "Origen"
+        "destSingular"               = "Destino"
+        "destPlural"                 = "Destino(s)"
         
-        # ==============================
+        # -----------------------------
         # Errores de Validación
-        # ==============================
-        "errorNoSource"      = "Falta definir la ruta de Origen."
-        "errorMultipleSource"= "NO debe contener múltiples rutas. Especifique solo una ruta de origen."
-        "errorNoDestination" = "No se ha definido ninguna ruta de destino válida."
-        "errorInvalidDestination" = "La ruta de destino es incorrecta"
-        "errorAdviceDestination"  = " Especifique una ruta de destino (ej: C:\Users\destino)."
+        # -----------------------------
+        "errorNoSource"              = "Falta definir la ruta de Origen."
+        "errorMultipleSource"        = "NO debe contener múltiples rutas. Especifique solo una ruta de origen."
+        "errorNoDestination"         = "No se ha definido ninguna ruta de destino válida."
+        "errorInvalidDestination"    = "La ruta de destino es incorrecta"
+        "errorAdviceDestination"     = " Especifique una ruta de destino (ej: C:\Users\destino)."
+        "errorInvalidPaths"          = "Error: Rutas de origen/destino inválidas."
         
-        # ==============================
-        # Etiquetas y Mensajes del Proceso
-        # ==============================
-        "labelBackingUp"     = "Respaldando"
-        "labelBackupCompleted" = "Respaldo completado en"
+        # -----------------------------
+        # Mensajes del Proceso
+        # -----------------------------
+        "labelBackingUp"             = "Respaldando"
+        "labelBackupCompleted"       = "Respaldo completado en"
+        "backupSummary"              = "Resumen de Respaldo"
+        "summaryLine1"               = "Ya existentes"
+        "summaryLine2"               = "Copiados"
+        "summaryLine3"               = "No se copiaron"
         
-        # ==============================
-        # Encabezados de la Tabla de Archivos
-        # ==============================
-        "date"               = "Fecha"
-        "originalLabel"      = "original"
-        "replacementLabel"   = "reemplazo"
-        "tableHeader1"       = "Carpeta"
-        "tableHeader2"       = "Archivo"
-        "tableHeader5"       = "Estado"
+        # -----------------------------
+        # Encabezados de Tablas
+        # -----------------------------
+        "date"                     = "Fecha"
+        "originalLabel"            = "original"
+        "replacementLabel"         = "reemplazo"
+        "tableHeader1"             = "Carpeta"
+        "tableHeader2"             = "Archivo"
+        "tableHeader5"             = "Estado"
         
-        # ==============================
-        # Otros Textos
-        # ==============================
-        "noFilesFound"       = "No se encontraron archivos para respaldar."
-        "errorDuringBackup"  = "Error en respaldo de"
-        "progressCompleted"  = "finalizado"
-        "exitPrompt"         = "Presione Enter para salir"
-        "warningText"        = "Advertencia"
-        "backupCompletedHeader" = "Respaldo completado en"
-        "backupSummary"      = "Resumen de Respaldo"
-        "summaryLine1"       = "Ya existentes"
-        "summaryLine2"       = "Copiados"
-        "summaryLine3"       = "No se copiaron"
-        "errorSingular"      = "error"
-        "errorPlural"        = "error(es)"
+        # -----------------------------
+        # Otros Textos y Mensajes
+        # -----------------------------
+        "noFilesFound"             = "No se encontraron archivos para respaldar."
+        "errorDuringBackup"        = "Error en respaldo de"
+        "progressCompleted"        = "finalizado"
+        "exitPrompt"               = "Presione Enter para salir"
+        "warningText"              = "Advertencia"
+        "errorNotification"        = "No se pudo mostrar la notificación de respaldo completado: "
+        "errorOccurred"            = "Se produjo un error: "
+        "notApplicable"            = "N/A"
+        "noExecuted"               = "No ejecutado"
         
-        # ==============================
+        # -----------------------------
+        # Estados para Archivos
+        # -----------------------------
+        "state_exists"             = "Ya existe"
+        "state_copied"             = "Copiado"
+        
+        # -----------------------------
         # Variables para Nubes
-        # ==============================
-        "cloud_iCloudDrive"  = "iCloudDrive"
-        "cloud_OneDrive"     = "OneDrive"
-        # ———————————————
-        # Estados para archivos
-        # ———————————————
-        "state_exists"       = "Ya existe"
-        "state_copied"       = "Copiado"
-
-        # ==============================
-        # Otros Errores
-        # ==============================
-        "logLabel" = "log"
-        "errorMissingLogFile" = "No se pudo generar el log, ya que falta el archivo 'Generate-Logs.ps1'. Para habilitar la generación de logs, descarga y coloca dicho archivo en la carpeta del proyecto."
+        # -----------------------------
+        "cloud_iCloudDrive"        = "iCloudDrive"
+        "cloud_OneDrive"           = "OneDrive"
+        
+        # -----------------------------
+        # Errores y Advertencias Adicionales
+        # -----------------------------
+        "logLabel"                 = "log"
+        "errorMissingLogFile"      = "No se pudo generar el log, ya que falta el archivo 'Generate-Logs.ps1'. Para habilitar la generación de logs, descargue y coloque dicho archivo en la carpeta del proyecto."
+        
+        # -----------------------------
+        # Textos para Notificaciones
+        # -----------------------------
+        "notificationSuccessTitle"     = "Respaldo Exitoso"
+        "notificationSuccessMessage"   = "El respaldo se ha completado exitosamente."
+        "notificationErrorTitle"       = "Error en Respaldo"
+        "notificationErrorMessage"     = "Ocurrió un error durante el respaldo."
+        "notificationWarningTitle"     = "Advertencia"
+        "notificationWarningMessage"   = "Verifique la configuración del respaldo."
+        "notificationSuggestionTitle"  = "Característica Opcional"
+        "notificationSuggestionMessage" = "Para notificaciones avanzadas, instale el módulo de notificaciones."
     }
     
     "english" = @{
-        # ==============================
+        # -----------------------------
         # General Texts
-        # ==============================
-        "titleAutoBackup"    = "AUTO BACKUP INITIATED"
-        "labelSource"        = "Source"
-        "destSingular"       = "Destination"
-        "destPlural"         = "Destination(s)"
+        # -----------------------------
+        "titleAutoBackup"            = "AUTO BACKUP INITIATED"
+        "labelSource"                = "Source"
+        "destSingular"               = "Destination"
+        "destPlural"                 = "Destination(s)"
         
-        # ==============================
+        # -----------------------------
         # Validation Errors
-        # ==============================
-        "errorNoSource"      = "Source path not defined."
-        "errorMultipleSource"= "Multiple source paths are not allowed. Please specify only one source path."
-        "errorNoDestination" = "No valid destination path defined."
-        "errorInvalidDestination" = "The destination path is invalid"
-        "errorAdviceDestination"  = " Specify a destination path (eg: C:\Users\destino)."
+        # -----------------------------
+        "errorNoSource"              = "Source path not defined."
+        "errorMultipleSource"        = "Multiple source paths are not allowed. Specify only one source."
+        "errorNoDestination"         = "No valid destination path defined."
+        "errorInvalidDestination"    = "The destination path is invalid"
+        "errorAdviceDestination"     = " Specify a destination path (e.g., C:\Users\destination)."
+        "errorInvalidPaths"          = "Error: Invalid source/destination paths."
         
-        # ==============================
+        # -----------------------------
         # Process Labels and Messages
-        # ==============================
-        "labelBackingUp"     = "Backing up"
-        "labelBackupCompleted" = "Backup completed in"
+        # -----------------------------
+        "labelBackingUp"             = "Backing up"
+        "labelBackupCompleted"       = "Backup completed in"
+        "backupSummary"              = "Backup Summary"
+        "summaryLine1"               = "Already exists"
+        "summaryLine2"               = "Copied"
+        "summaryLine3"               = "Not copied"
         
-        # ==============================
-        # File Table Headers
-        # ==============================
-        "date"               = "Date"
-        "originalLabel"      = "Original"
-        "replacementLabel"   = "New"
-        "tableHeader1"       = "Folder"
-        "tableHeader2"       = "File"
-        "tableHeader5"       = "Status"
+        # -----------------------------
+        # Table Headers
+        # -----------------------------
+        "date"                     = "Date"
+        "originalLabel"            = "original"
+        "replacementLabel"         = "replacement"
+        "tableHeader1"             = "Folder"
+        "tableHeader2"             = "File"
+        "tableHeader5"             = "Status"
         
-        # ==============================
+        # -----------------------------
         # Other Texts
-        # ==============================
-        "noFilesFound"       = "No files found for backup."
-        "errorDuringBackup"  = "Error during backup of"
-        "progressCompleted"  = "completed"
-        "exitPrompt"         = "Press Enter to exit"
-        "warningText"        = "Warning"
-        "backupCompletedHeader" = "Backup completed in"
-        "backupSummary"      = "Backup Summary"
-        "summaryLine1"       = "Already existing"
-        "summaryLine2"       = "Copied"
-        "summaryLine3"       = "Not copied"
-        "errorSingular"      = "error"
-        "errorPlural"        = "error(s)"
+        # -----------------------------
+        "noFilesFound"             = "No files found for backup."
+        "errorDuringBackup"        = "Error during backup of"
+        "progressCompleted"        = "completed"
+        "exitPrompt"               = "Press Enter to exit"
+        "warningText"              = "Warning"
+        "errorNotification"        = "Could not display backup notification: "
+        "errorOccurred"            = "An error occurred: "
+        "notApplicable"            = "N/A"
+        "noExecuted"               = "Not executed"
         
-        # ==============================
-        # Cloud Variables
-        # ==============================
-        "cloud_iCloudDrive"  = "iCloudDrive"
-        "cloud_OneDrive"     = "OneDrive"
-
-        # ———————————————
+        # -----------------------------
         # File States
-        # ———————————————
-        "state_exists"       = "Already exists"  # O bien "Exists" según prefieras
-        "state_copied"       = "Copied"
-
-        # ==============================
-        # Other Errors
-        # ==============================
-        "logLabel" = "log"
-        "errorMissingLogFile" = "Could not generate the log, as the 'Generate-Logs.ps1' file is missing. To enable log generation, download and place this file in the project folder."
+        # -----------------------------
+        "state_exists"             = "Already exists"
+        "state_copied"             = "Copied"
+        
+        # -----------------------------
+        # Cloud Variables
+        # -----------------------------
+        "cloud_iCloudDrive"        = "iCloudDrive"
+        "cloud_OneDrive"           = "OneDrive"
+        
+        # -----------------------------
+        # Additional Errors & Warnings
+        # -----------------------------
+        "logLabel"                 = "log"
+        "errorMissingLogFile"      = "Could not generate log, as 'Generate-Logs.ps1' file is missing. To enable log generation, download and place the file in the project folder."
+        
+        # -----------------------------
+        # Notification Texts
+        # -----------------------------
+        "notificationSuccessTitle"     = "Backup Successful"
+        "notificationSuccessMessage"   = "Your backup completed successfully."
+        "notificationErrorTitle"       = "Backup Error"
+        "notificationErrorMessage"     = "An error occurred during backup."
+        "notificationWarningTitle"     = "Warning"
+        "notificationWarningMessage"   = "Please check your backup configuration."
+        "notificationSuggestionTitle"  = "Optional Feature"
+        "notificationSuggestionMessage" = "For advanced notifications, please install the notifications module."
     }
     
+    #FALTA CORREGIR LOS SIGUIENTES IDIOMAS RECORDAR HACERLO MAS TARDE
     "japanese" = @{
         # ==============================
         # 一般的なテキスト (General Texts)

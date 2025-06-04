@@ -194,7 +194,7 @@ Hacer el respaldo automático con script más **transparente**, **visual** y **s
 ---
 
 ## 🆕 Ultimas mejoras agregadas
-🚀 Mejoras del 03 de junio de 2025, ver 2.2.1  
+🚀 Mejoras del 04 de junio de 2025, ver 2.2.1  
 - ✅ **Refactorización y reestructuración total:** Se eliminó SuccessfulBackup.ps1 y se sustituyó por notifications.ps1 para lograr un proyecto más modular.  
 - ✅ **Orden y limpieza en RunBackup.ps1:** Reorganización integral del script principal, facilitando el mantenimiento y la comprensión.  
 - ✅ **Actualización del diccionario:** Se amplió y optimizó lang/languages.ps1, mejorando el soporte multilingüe.  
