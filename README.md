@@ -103,7 +103,7 @@ Al finalizar, se mostrará un informe detallado que incluye:
 La versión más reciente de **RunBackup** está disponible en la sección de Releases.  
 Puedes descargar los archivos ejecutables desde el siguiente enlace:
 
-🔹 [Descargar RunBackup v2.2.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.2.0)
+🔹 [Descargar RunBackup v2.2.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.2.1)
 
 ---
 
@@ -194,6 +194,14 @@ Hacer el respaldo automático con script más **transparente**, **visual** y **s
 ---
 
 ## 🆕 Ultimas mejoras agregadas
+🚀 Mejoras del 03 de junio de 2025, ver 2.2.1  
+- ✅ **Refactorización y reestructuración total:** Se eliminó SuccessfulBackup.ps1 y se sustituyó por notifications.ps1 para lograr un proyecto más modular.  
+- ✅ **Orden y limpieza en RunBackup.ps1:** Reorganización integral del script principal, facilitando el mantenimiento y la comprensión.  
+- ✅ **Actualización del diccionario:** Se amplió y optimizó lang/languages.ps1, mejorando el soporte multilingüe.  
+- ✅ **Mejor manejo de pausas y modo minimizado:** Se ajustó la pausa del script y se incorporaron funciones para ejecutarlo de forma minimizada, ideal para TaskScheduler.  
+- ✅ **Optimización general del código:** Refactorización y ordenación de todos los archivos del proyecto, eliminando redundancias y facilitando futuras ampliaciones.
+  
+---
 
 🚀 Mejoras del 02 de junio de 2025, ver 2.2.0
 - ✅ **Continuación de la refactorización y orden del código:** Se ha mantenido el trabajo de refactorización, asegurando consistencia en el codigo.
@@ -246,12 +254,19 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 
 ---
 
-### 🔄 Objetivos para la próxima versión (**V2.2.0**, en desarrollo)
+### 🔄 Objetivos para la próxima versión (**V2.3 Final**, en desarrollo)
+
+- ❌ Concluir personalizacion notificaciones
+- ❌ Completar reestructuracion y organizacion del codigo.
+- ❌ corregir errores.
+- ❌ concluir codificacion del proyecto
+
+### ✅ Objetivos cumplidos en **Versión 2.2.0**
 
 - ✔️ Soporte para **español, inglés**, con opción de expandir a otros idiomas.  
 - ✔️ Documentación en `TaskScheduler.md` para programar el script automáticamente.  
-- ❌ Notificación en el **Centro de Windows** tras completar el respaldo.  
-- ❌ Creación de la carpeta `logs_RunBackupV2` con historial de hasta 5 registros.  
+- ✔️ Notificación en el **Centro de Windows** tras completar el respaldo.  
+- ✔️ Creación de la carpeta `logs_RunBackupV2` con historial de hasta 5 registros.  
 - ✔️ Implementación del **modo incremental**, evitando copias innecesarias.  
 - ✔️ Protección contra errores por múltiples rutas en `$SourcePath`, con mensaje claro.  
 - ✔️ Implementación de Tabla Consolidada en CSV para logs estructurados y exportables.
@@ -274,5 +289,4 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 - ✔️ Se crean las carpetas automáticamente si no existen, evitando errores.
 - ✔️ Los archivos que no pudieron respaldarse se listan claramente en el mensaje final.
 - ✔️ El script espera la pulsación de Enter antes de cerrar, dando al usuario tiempo suficiente para revisar el informe completo en la terminal.
-
 
