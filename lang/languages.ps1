@@ -185,142 +185,252 @@ $languages = @{
         "notificationSuggestionMessage" = "For advanced notifications, please install the notifications module."
     }
     
-    #FALTA CORREGIR LOS SIGUIENTES IDIOMAS RECORDAR HACERLO MAS TARDE
     "japanese" = @{
         # ==============================
         # 一般的なテキスト (General Texts)
         # ==============================
-        "titleAutoBackup"    = "自動バックアップ開始"
-        "labelSource"        = "ソース"
-        "destSingular"       = "宛先"
-        "destPlural"         = "宛先"
+        "titleAutoBackup"            = "自動バックアップを開始中"
+        "labelSource"                = "ソース"
+        "destSingular"               = "バックアップ先"
+        "destPlural"                 = "バックアップ先"
         
         # ==============================
-        # 検証エラー (Validation Errors)
+        # バリデーションエラー (Validation Errors)
         # ==============================
-        "errorNoSource"      = "ソースパスが定義されていません。"
-        "errorMultipleSource"= "複数のソースパスは許可されていません。1つのソースパスのみ指定してください。"
-        "errorNoDestination" = "有効な宛先パスが定義されていません。"
-        "errorInvalidDestination" = "無効な宛先パスです"
-        "errorAdviceDestination"  = " 有効な宛先パスを指定してください（例: C:\Users\destino）。"
+        "errorNoSource"              = "ソースパスが定義されていません。"
+        "errorMultipleSource"        = "複数のソースパスは許可されていません。一つのソースのみを指定してください。"
+        "errorNoDestination"         = "有効なバックアップ先パスが定義されていません。"
+        "errorInvalidDestination"    = "バックアップ先のパスが無効です。"
+        "errorAdviceDestination"     = " バックアップ先のパスを指定してください（例：C:\Users\destination）。"
+        "errorInvalidPaths"          = "エラー：無効なソース/バックアップ先パスです。"
         
         # ==============================
-        # プロセスのラベル (Process Labels)
+        # プロセスメッセージ (Process Messages)
         # ==============================
-        "labelBackingUp"     = "バックアップ中"
-        "labelBackupCompleted" = "バックアップ完了"
+        "labelBackingUp"             = "バックアップ中"
+        "labelBackupCompleted"       = "バックアップ完了:"
+        "backupSummary"              = "バックアップ概要"
+        "summaryLine1"               = "既存"
+        "summaryLine2"               = "コピー済み"
+        "summaryLine3"               = "コピーされなかった"
         
         # ==============================
-        # ファイル表のヘッダー (File Table Headers)
+        # テーブルのヘッダー (Table Headers)
         # ==============================
-        "date"               = "日付"
-        "originalLabel"      = "変更前"
-        "replacementLabel"   = "変更後"
-        "tableHeader1"       = "フォルダ"
-        "tableHeader2"       = "ファイル"
-        "tableHeader5"       = "状態"
+        "date"                     = "日付"
+        "originalLabel"            = "元"
+        "replacementLabel"         = "置換"
+        "tableHeader1"             = "フォルダ"
+        "tableHeader2"             = "ファイル"
+        "tableHeader5"             = "状態"
         
         # ==============================
         # その他のテキスト (Other Texts)
         # ==============================
-        "noFilesFound"       = "バックアップするファイルが見つかりませんでした。"
-        "errorDuringBackup"  = "バックアップ中のエラー"
-        "progressCompleted"  = "完了"
-        "exitPrompt"         = "終了するにはEnterキーを押してください"
-        "warningText"        = "警告"
-        "backupCompletedHeader" = "バックアップ完了"
-        "backupSummary"      = "バックアップ概要"
-        "summaryLine1"       = "既存ファイル"
-        "summaryLine2"       = "コピーされたファイル"
-        "summaryLine3"       = "コピーされなかった"
-        "errorSingular"      = "エラー"
-        "errorPlural"        = "エラー"
+        "noFilesFound"             = "バックアップ対象のファイルが見つかりません。"
+        "errorDuringBackup"        = "バックアップ中にエラーが発生しました："
+        "progressCompleted"        = "完了"
+        "exitPrompt"               = "終了するにはEnterキーを押してください。"
+        "warningText"              = "警告"
+        "errorNotification"        = "バックアップ完了の通知を表示できませんでした： "
+        "errorOccurred"            = "エラーが発生しました："
+        "notApplicable"            = "該当なし"
+        "noExecuted"               = "未実行"
         
         # ==============================
-        # クラウド用変数 (Cloud Variables)
+        # ファイルの状態 (File States)
         # ==============================
-        "cloud_iCloudDrive"  = "iCloudDrive"
-        "cloud_OneDrive"     = "OneDrive"
-
-        # ———————————————
-        # ファイルの状態
-        # ———————————————
-        "state_exists"       = "既に存在"
-        "state_copied"       = "コピー済み"
-
+        "state_exists"             = "既に存在"
+        "state_copied"             = "コピー"
+        
         # ==============================
-        # その他のエラー (Other Errors)
+        # クラウド変数 (Cloud Variables)
         # ==============================
-        "logLabel" = "ログ"
-        "errorMissingLogFile" = "ログを生成できませんでした。'Generate-Logs.ps1'ファイルが欠落しています。ログ生成を有効にするには、このファイルをプロジェクトフォルダにダウンロードして配置してください。"
+        "cloud_iCloudDrive"        = "iCloudDrive"
+        "cloud_OneDrive"           = "OneDrive"
+        
+        # ==============================
+        # 追加のエラーと警告 (Additional Errors & Warnings)
+        # ==============================
+        "logLabel"                 = "log"
+        "errorMissingLogFile"      = "'Generate-Logs.ps1' ファイルが見つからないため、ログを生成できませんでした。ログ生成を有効にするには、プロジェクトフォルダにこのファイルをダウンロードして配置してください。"
+        
+        # ==============================
+        # 通知テキスト (Notification Texts)
+        # ==============================
+        "notificationSuccessTitle"     = "バックアップ成功"
+        "notificationSuccessMessage"   = "バックアップが正常に完了しました。"
+        "notificationErrorTitle"       = "バックアップエラー"
+        "notificationErrorMessage"     = "バックアップ中にエラーが発生しました。"
+        "notificationWarningTitle"     = "警告"
+        "notificationWarningMessage"   = "バックアップ設定を確認してください。"
+        "notificationSuggestionTitle"  = "オプショナル機能"
+        "notificationSuggestionMessage" = "高度な通知機能のためには、通知モジュールをインストールしてください。"
     }
     
     "german" = @{
         # ==============================
         # Allgemeine Texte (General Texts)
         # ==============================
-        "titleAutoBackup"    = "AUTO BACKUP INITIIERT"
-        "labelSource"        = "Quelle"
-        "destSingular"       = "Ziel"
-        "destPlural"         = "Ziel(e)"
+        "titleAutoBackup"            = "AUTO BACKUP INITIIERT"
+        "labelSource"                = "Quelle"
+        "destSingular"               = "Ziel"
+        "destPlural"                 = "Ziele"
         
         # ==============================
         # Validierungsfehler (Validation Errors)
         # ==============================
-        "errorNoSource"      = "Quellpfad nicht definiert."
-        "errorMultipleSource"= "Mehrere Quellpfade sind nicht erlaubt. Bitte geben Sie nur einen Quellpfad an."
-        "errorNoDestination" = "Kein gültiger Zielpfad definiert."
-        "errorInvalidDestination" = "Der Zielpfad ist ungültig"
-        "errorAdviceDestination"  = " Bitte geben Sie einen gültigen Zielpfad an (z.B. C:\Users\destino)."
+        "errorNoSource"              = "Quellpfad nicht definiert."
+        "errorMultipleSource"        = "Mehrere Quellpfade sind nicht erlaubt. Bitte geben Sie nur einen Quellpfad an."
+        "errorNoDestination"         = "Kein gültiger Zielpfad definiert."
+        "errorInvalidDestination"    = "Der Zielpfad ist ungültig."
+        "errorAdviceDestination"     = " Bitte geben Sie einen Zielpfad an (z.B. C:\Users\Ziel)."
+        "errorInvalidPaths"          = "Fehler: Ungültige Quell-/Zielpfade."
         
         # ==============================
-        # Prozessbeschriftungen (Process Labels)
+        # Prozessmeldungen (Process Messages)
         # ==============================
-        "labelBackingUp"     = "Sicherung wird durchgeführt"
-        "labelBackupCompleted" = "Sicherung abgeschlossen in"
+        "labelBackingUp"             = "Sicherung läuft"
+        "labelBackupCompleted"       = "Sicherung abgeschlossen in"
+        "backupSummary"              = "Sicherungsübersicht"
+        "summaryLine1"               = "Bereits vorhanden"
+        "summaryLine2"               = "Kopiert"
+        "summaryLine3"               = "Nicht kopiert"
         
         # ==============================
         # Tabellenüberschriften (Table Headers)
         # ==============================
-        "date"               = "Datum"
-        "originalLabel"      = "ursprünglich"
-        "replacementLabel"   = "neu"
-        "tableHeader1"       = "Ordner"
-        "tableHeader2"       = "Datei"
-        "tableHeader5"       = "Status"
+        "date"                     = "Datum"
+        "originalLabel"            = "Original"
+        "replacementLabel"         = "Ersetzung"
+        "tableHeader1"             = "Ordner"
+        "tableHeader2"             = "Datei"
+        "tableHeader5"             = "Status"
         
         # ==============================
-        # Weitere Texte (Other Texts)
+        # Weitere Texte und Meldungen (Other Texts)
         # ==============================
-        "noFilesFound"       = "Keine Dateien zum Sichern gefunden."
-        "errorDuringBackup"  = "Fehler beim Sichern von"
-        "progressCompleted"  = "abgeschlossen"
-        "exitPrompt"         = "Drücken Sie Enter zum Beenden"
-        "warningText"        = "Warnung"
-        "backupCompletedHeader" = "Sicherung abgeschlossen in"
-        "backupSummary"      = "Sicherungsübersicht"
-        "summaryLine1"       = "Existierende Dateien"
-        "summaryLine2"       = "Kopierte Dateien"
-        "summaryLine3"       = "Nicht kopiert"
-        "errorSingular"      = "Fehler"
-        "errorPlural"        = "Fehler"
+        "noFilesFound"             = "Keine Dateien zum Sichern gefunden."
+        "errorDuringBackup"        = "Fehler bei Sicherung von"
+        "progressCompleted"        = "abgeschlossen"
+        "exitPrompt"               = "Drücken Sie die Eingabetaste zum Beenden."
+        "warningText"              = "Warnung"
+        "errorNotification"        = "Die Benachrichtigung über abgeschlossene Sicherung konnte nicht angezeigt werden: "
+        "errorOccurred"            = "Ein Fehler ist aufgetreten: "
+        "notApplicable"            = "N/V"
+        "noExecuted"               = "Nicht ausgeführt"
+        
+        # ==============================
+        # Datei Status (File States)
+        # ==============================
+        "state_exists"             = "Bereits vorhanden"
+        "state_copied"             = "Kopiert"
         
         # ==============================
         # Cloud Variablen (Cloud Variables)
         # ==============================
-        "cloud_iCloudDrive"  = "iCloudDrive"
-        "cloud_OneDrive"     = "OneDrive"
-
-        # ———————————————
-        # Dateistatus
-        # ———————————————
-        "state_exists"       = "Bereits vorhanden"
-        "state_copied"       = "Kopiert"
-
+        "cloud_iCloudDrive"        = "iCloudDrive"
+        "cloud_OneDrive"           = "OneDrive"
+        
         # ==============================
-        # Andere Fehler (Other Errors)
+        # Zusätzliche Fehler & Warnungen (Additional Errors & Warnings)
         # ==============================
-        "logLabel" = "Log"
-        "errorMissingLogFile" = "Das Log konnte nicht generiert werden, da die Datei 'Generate-Logs.ps1' fehlt. Um die Log-Generierung zu aktivieren, laden Sie diese Datei herunter und platzieren Sie sie im Projektordner."
+        "logLabel"                 = "log"
+        "errorMissingLogFile"      = "Log konnte nicht erstellt werden, da die Datei 'Generate-Logs.ps1' fehlt. Um die Log-Erstellung zu aktivieren, laden Sie bitte die Datei herunter und platzieren Sie sie im Projektordner."
+        
+        # ==============================
+        # Benachrichtigungstexte (Notification Texts)
+        # ==============================
+        "notificationSuccessTitle"     = "Sicherung erfolgreich"
+        "notificationSuccessMessage"   = "Die Sicherung wurde erfolgreich abgeschlossen."
+        "notificationErrorTitle"       = "Sicherungsfehler"
+        "notificationErrorMessage"     = "Während der Sicherung ist ein Fehler aufgetreten."
+        "notificationWarningTitle"     = "Warnung"
+        "notificationWarningMessage"   = "Bitte überprüfen Sie Ihre Sicherungskonfiguration."
+        "notificationSuggestionTitle"  = "Optionale Funktion"
+        "notificationSuggestionMessage" = "Für erweiterte Benachrichtigungen installieren Sie bitte das Benachrichtigungsmodul."
+    }
+    
+    "chinese" = @{
+        # -----------------------------
+        # 通用文本 (General Texts)
+        # -----------------------------
+        "titleAutoBackup"            = "自动备份启动"
+        "labelSource"                = "源"
+        "destSingular"               = "目标"
+        "destPlural"                 = "目标(多个)"
+        
+        # -----------------------------
+        # 验证错误 (Validation Errors)
+        # -----------------------------
+        "errorNoSource"              = "未定义源路径."
+        "errorMultipleSource"        = "不允许包含多个路径。请仅指定一个源路径."
+        "errorNoDestination"         = "未定义有效的目标路径."
+        "errorInvalidDestination"    = "目标路径不正确"
+        "errorAdviceDestination"     = " 请指定一个目标路径（例如：C:\Users\destination）."
+        "errorInvalidPaths"          = "错误: 无效的源/目标路径."
+        
+        # -----------------------------
+        # 处理信息 (Process Messages)
+        # -----------------------------
+        "labelBackingUp"             = "正在备份"
+        "labelBackupCompleted"       = "备份完成于"
+        "backupSummary"              = "备份摘要"
+        "summaryLine1"               = "已存在"
+        "summaryLine2"               = "已复制"
+        "summaryLine3"               = "未复制"
+        
+        # -----------------------------
+        # 表头 (Table Headers)
+        # -----------------------------
+        "date"                     = "日期"
+        "originalLabel"            = "原始"
+        "replacementLabel"         = "替换"
+        "tableHeader1"             = "文件夹"
+        "tableHeader2"             = "文件"
+        "tableHeader5"             = "状态"
+        
+        # -----------------------------
+        # 其他文本 (Other Texts)
+        # -----------------------------
+        "noFilesFound"             = "未找到可备份的文件."
+        "errorDuringBackup"        = "备份时出错:"
+        "progressCompleted"        = "完成"
+        "exitPrompt"               = "按Enter键退出"
+        "warningText"              = "警告"
+        "errorNotification"        = "无法显示备份完成通知: "
+        "errorOccurred"            = "发生错误: "
+        "notApplicable"            = "不适用"
+        "noExecuted"               = "未执行"
+        
+        # -----------------------------
+        # 文件状态 (File States)
+        # -----------------------------
+        "state_exists"             = "已存在"
+        "state_copied"             = "已复制"
+        
+        # -----------------------------
+        # 云变量 (Cloud Variables)
+        # -----------------------------
+        "cloud_iCloudDrive"        = "iCloudDrive"
+        "cloud_OneDrive"           = "OneDrive"
+        
+        # -----------------------------
+        # 附加错误和警告 (Additional Errors & Warnings)
+        # -----------------------------
+        "logLabel"                 = "日志"
+        "errorMissingLogFile"      = "无法生成日志，因为缺少 'Generate-Logs.ps1' 文件。要启用日志生成，请下载该文件并将其放置在项目文件夹中."
+        
+        # -----------------------------
+        # 通知文本 (Notification Texts)
+        # -----------------------------
+        "notificationSuccessTitle"     = "备份成功"
+        "notificationSuccessMessage"   = "备份成功完成."
+        "notificationErrorTitle"       = "备份错误"
+        "notificationErrorMessage"     = "备份过程中发生错误."
+        "notificationWarningTitle"     = "警告"
+        "notificationWarningMessage"   = "请检查备份配置."
+        "notificationSuggestionTitle"  = "可选功能"
+        "notificationSuggestionMessage" = "要使用高级通知，请安装通知模块."
     }
 }
