@@ -4,17 +4,28 @@ Este script automatiza la copia de archivos a ubicacion(es) seguras (locales o e
 
 ---
 
-## 🚀 Origen del proyecto  
+## 💡¿Qué es?
 
-Este proyecto nació al enfrentar un problema puntual: **respaldar una carpeta carpeta especifica diariamente a hacia multiples rutas.**
+RunBackup es un script que te sirve para copiar archivos desde una ruta de origen (Ruta A) hacia una o varias ubicaciones de destino (Rutas B, C, D, etc.).
 
-Como jugador que alternaba entre pc y movil, necesitaba una forma de respaldar carpetas específicas (como partidas de juegos o configuraciones personales) sin perder tiempo y sin depender de herramientas externas complejas.
+---
 
-Y aunque algunos emuladores ofrecen sincronización en la nube, muchos no lo hacen o no permiten definir múltiples rutas de respaldo. Eso obligaba a abrir carpetas específicas, copiar archivos, y pegarlos en un servicio como OneDrive o iCloud... todo manualmente y propenso a errores humanos.
+## 📌 ¿Cuándo usar este script?
+En situaciones que necesites respaldar **frecuentemente** los mismos archivos o carpetas en destinos predefinidos, y requieres algo simple.
 
-Tras crear el script para automatizar este proceso, fue evolucionando y ganando características como validación de rutas, interfaz visual, soporte multilingüe y más.
+👉 Casos de uso recomendados:
 
-Hoy, **RunBackup** es una herramienta versátil para cualquier tarea de respaldo sencilla y periódica.
+- ✅ **Sincronización de documentos** entre nubes o discos.
+- ✅ **Copias de seguridad periódicas** programadas.
+- ✅ **Respaldo de partidas de videojuegos** entre dispositivos.
+- ✅ **Respaldo de configuraciones o perfiles de usuario**.
+
+⚠️ No es ideal para:
+
+- Sistemas que requieren respaldo incremental con versiones históricas.  
+- Compresión avanzada de archivos.  
+- Cifrado o seguridad de datos altamente sensible.
+- Sincronización en tiempo real entre dispositivos.
 
 ---
 
@@ -26,25 +37,6 @@ Hoy, **RunBackup** es una herramienta versátil para cualquier tarea de respaldo
 - 💾 Compatible con OneDrive, iCloudDrive, unidades externas y rutas locales.
 - 📊 Barra de progreso visual para seguimiento en tiempo real.
 - 🧠 Registro de archivos modificados y sus fechas.
-
----
-
-📌 ¿Cuándo usar este script?
-En situaciones que necesites respaldar frecuentemente los mismos archivos o carpetas en destinos predefinidos.
-
-👉 Casos de uso recomendados:
-
-- ✅ **Respaldo de partidas de videojuegos** entre dispositivos.
-- ✅ **Sincronización de documentos** entre nubes o discos.
-- ✅ **Copias de seguridad periódicas** programadas.
-- ✅ **Respaldo de configuraciones o perfiles de usuario**.
-
-⚠️ No es ideal para:
-
-- Sistemas que requieren respaldo incremental con versiones históricas.  
-- Compresión avanzada de archivos.  
-- Cifrado o seguridad de datos altamente sensible.
-- Sincronización en tiempo real entre dispositivos.
 
 ---
 
@@ -130,7 +122,7 @@ Consulta la guía 👉 [Automatización con Task Scheduler](docs/TaskScheduler.m
 
 ---
 
-## 📌 Advertencias y manejo de errores  
+## 📌 Advertencias y manejo de errores 
 
 - **Validación de rutas:** Si la ruta de origen es inválida, el script se detendrá y mostrará un mensaje claro para corregir el error. Si alguna ruta de destino contiene errores de sintaxis, el proceso continuará únicamente con las rutas válidas. Las rutas conflictivas se marcarán con color y se mostrarán sugerencias para su corrección.
 
@@ -166,6 +158,20 @@ Creado por [AnDev](https://github.com/AnDev-000) como un ejercicio práctico de 
 </div>
 
 
+
+---
+
+## 🚀 Origen del proyecto  
+
+Este proyecto nació al enfrentar un problema puntual: **respaldar una carpeta carpeta especifica diariamente a hacia multiples rutas.**
+
+Como jugador que alternaba entre pc y movil, necesitaba una forma de respaldar carpetas específicas (como partidas de juegos o configuraciones personales) sin perder tiempo y sin depender de herramientas externas complejas.
+
+Y aunque algunos emuladores ofrecen sincronización en la nube, muchos no lo hacen o no permiten definir múltiples rutas de respaldo. Eso obligaba a abrir carpetas específicas, copiar archivos, y pegarlos en un servicio como OneDrive o iCloud... todo manualmente y propenso a errores humanos.
+
+Tras crear el script para automatizar este proceso, fue evolucionando y ganando características como validación de rutas, interfaz visual, soporte multilingüe y más.
+
+Hoy, **RunBackup** es una herramienta versátil para cualquier tarea de respaldo sencilla y periódica.
 
 ---
 
