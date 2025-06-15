@@ -1,0 +1,515 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Objects>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">GAME.DAT</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:20</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:19</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:19</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:20</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00025001</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">05-06-24 17:43:12</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00025001</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">05-06-24 17:43:12</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00025001</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">05-06-24 17:43:12</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00196001</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:26</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00196001</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:26</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00196001</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:26</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">MHP3RD.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">SECURE.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">ICON1.PMF</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\iCloudDrive\carpetaTest</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">SND0.AT3</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">GAME.DAT</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES01245-GAMEDAT</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:28</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:20</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:19</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:19</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCES012500000</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:20</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">UCUS987430000</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">25-05-25 15:13:58</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00025001</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">05-06-24 17:43:12</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00025001</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">05-06-24 17:43:12</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00025001</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">05-06-24 17:43:12</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00196001</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:26</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00196001</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:26</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULES00196001</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:26</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">MHP3RD.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULJM05800</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 22:50:16</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS102490000</Property>
+    <Property Name="FileName" Type="System.String">SECURE.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">31-05-24 11:45:30</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">DATA.BIN</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">ICON0.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">ICON1.PMF</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">PARAM.SFO</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">PIC1.PNG</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+  <Object Type="System.Management.Automation.PSCustomObject">
+    <Property Name="Destination" Type="System.String">C:\Users\andre\Desktop\Carpeta1</Property>
+    <Property Name="Subfolder" Type="System.String">ULUS10490LA</Property>
+    <Property Name="FileName" Type="System.String">SND0.AT3</Property>
+    <Property Name="OriginalDate" Type="System.String">04-09-24 20:35:00</Property>
+    <Property Name="ReplacementDate" Type="System.String">     ┄┄┄┄┄┄┄┄┄      </Property>
+    <Property Name="State" Type="System.String">既に存在</Property>
+  </Object>
+</Objects>

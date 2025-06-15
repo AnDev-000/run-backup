@@ -1,0 +1,17 @@
+success.wav
+  • Autor   : UpdatePelgo
+  • Licencia: Pixabay License  
+               https://pixabay.com/service/license-summary/
+  • URL     : https://pixabay.com/sound-effects/success-221935/
+
+notification.wav
+  • Autor   : RasoolAsaad
+  • Licencia: Pixabay License  
+               https://pixabay.com/service/license-summary/
+  • URL     : https://pixabay.com/sound-effects/notification-sound-269266/
+
+error.wav
+  • Autor   : freesound_comunidad
+  • Licencia: Pixabay License  
+               https://pixabay.com/service/license-summary/
+  • URL     : https://pixabay.com/sound-effects/error-sound-39539/

@@ -1,19 +1,20 @@
-# installer/Setup.ps1
-Write-Host "Verificando dependencias..." -ForegroundColor Cyan
-
+# ------------------ SETUP: INSTALAR BURNTTOAST ------------------
 $moduleName = "BurntToast"
 if (-not (Get-Module -ListAvailable -Name $moduleName)) {
-    Write-Host "El módulo $($moduleName) no está instalado. Instalando..." -ForegroundColor Yellow
-    try {
-        Install-Module -Name $moduleName -Force -Scope CurrentUser -AllowClobber
-        Write-Host "Módulo $($moduleName) instalado correctamente." -ForegroundColor Green
+    $spinner = "|/-\"
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = "powershell.exe"
+    $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"Install-Module -Name $($moduleName) -Scope CurrentUser -Force -AllowClobber`""
+    $psi.CreateNoWindow = $true
+    $psi.UseShellExecute = $false
+    # Mostrar spinner sin mensajes adicionales:
+    $process = [System.Diagnostics.Process]::Start($psi)
+    while (-not $process.HasExited) {
+        for ($i = 0; $i -lt $spinner.Length; $i++) {
+            Write-Host -NoNewline ("`r" + $spinner[$i])
+            Start-Sleep -Milliseconds 150
+        }
     }
-    catch {
-        Write-Host "Error al instalar $($moduleName): $($_.Exception.Message)" -ForegroundColor Red
-    }
+    Write-Host "`r" -NoNewline
+    # Al finalizar, no se muestra ningún mensaje sobre la instalación.
 }
-else {
-    Write-Host "El módulo $($moduleName) ya está instalado." -ForegroundColor Green
-}
-
-Write-Host "Instalación y verificación de dependencias completadas." -ForegroundColor Cyan

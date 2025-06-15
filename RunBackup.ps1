@@ -1,46 +1,106 @@
-﻿param(
+﻿# ------------------ SCRIPT PRINCIPAL DE RUNBACKUP ------------------
+param(
     [switch]$AutoMode
 )
 
-# -------------------------------------------------------------------
-# SCRIPT PRINCIPAL DE RUNBACKUP
-# -------------------------------------------------------------------
+# ------------------ INSTALACIÓN DE BURNTTOAST (SOLO SE EJECUTA DESDE installer/Setup.ps1) ------------------
+# (La instalación se gestiona exclusivamente en installer/Setup.ps1)
 
-if (-not (Get-Module -ListAvailable -Name BurntToast)) {
-    $spinner = "|/-\"
-    $psi = New-Object System.Diagnostics.ProcessStartInfo
-    $psi.FileName = "powershell.exe"
-    $psi.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"Install-Module -Name BurntToast -Scope CurrentUser -Force -AllowClobber`""
-    $psi.CreateNoWindow = $true
-    $psi.UseShellExecute = $false
-
-    $process = [System.Diagnostics.Process]::Start($psi)
-    while (-not $process.HasExited) {
-        for ($i = 0; $i -lt $spinner.Length; $i++) {
-            Write-Host -NoNewline ("`r{0}" -f $spinner[$i])
-            Start-Sleep -Milliseconds 150
-        }
-    }
-    Write-Host "`r" -NoNewline
-    Import-Module BurntToast -ErrorAction Stop
-}
-
+# ------------------ CARGA DE TEXTOS ------------------
 . "$PSScriptRoot\lang\languages.ps1"
-$currentLanguage = "spanish"              # Opciones: "spanish","english", japanese, german.
+$currentLanguage = "spanish"  # Optiones: "spanish", "english", japanese, german, chinese...
 $msg = $languages[$currentLanguage]
 
+# ------------------ IMPORTACIÓN DE MÓDULOS: NOTIFICATIONS Y LOGGING ------------------
+$routeWarnings      = @()   # Advertencias de rutas
+$moduleWarnings     = @()   # Advertencias de módulos
+$notificationQueue  = @()   # Cola de notificaciones (Windows Toast)
+
+$logWarningEnqueued = $false  # Flag para evitar duplicar la notificación de logs
+
+$NotificationsModuleAvailable = $true
+$notifManifest = Join-Path $PSScriptRoot "modules\Notifications\Notifications.psm1"
+if (Test-Path $notifManifest) {
+    Import-Module $notifManifest -DisableNameChecking -Force -ErrorAction Stop
+    # Verificar existencia de la carpeta installer:
+    $installerSetup = Join-Path $PSScriptRoot "installer\Setup.ps1"
+    if (-not (Test-Path $installerSetup)) {
+        if (-not (Get-Module -ListAvailable -Name BurntToast)) {
+            $NotificationsModuleAvailable = $false
+            $moduleWarnings += ($globalSymbols.dash + " " + $msg.notificationsLabel + $globalSymbols.colon + " " + $msg.notificationInstallerMissing)
+        }
+    }
+}
+else {
+    $NotificationsModuleAvailable = $false
+    $moduleWarnings += ($globalSymbols.dash + " " + $msg.notificationsLabel + $globalSymbols.colon + " " + $msg.notificationModuleMissing)
+}
+
+$LogsModuleAvailable = $true
+$logManifest = Join-Path $PSScriptRoot "modules\Logging\Logging.psd1"
+if (Test-Path $logManifest) {
+    Import-Module $logManifest -DisableNameChecking -Force -ErrorAction Stop
+}
+else {
+    $LogsModuleAvailable = $false
+    $moduleWarnings += ($globalSymbols.dash + " " + $msg.logLabel + $globalSymbols.colon + " " + $msg.logModuleMissing)
+    if ($NotificationsModuleAvailable -and -not $logWarningEnqueued) {
+        $notificationQueue += { Show-WarningNotification -TitleKey "notificationLogErrorTitle" -MessageKey $msg.logModuleMissing }
+        $logWarningEnqueued = $true
+    }
+}
+
+# ------------------ WRAPPERS DE NOTIFICACIONES ------------------
+if ($NotificationsModuleAvailable) {
+    if (-not (Get-Command Show-ErrorNotification -ErrorAction SilentlyContinue)) {
+        function Show-ErrorNotification {
+            param(
+                [string]$TitleKey,
+                [string]$MessageKey
+            )
+            Send-ErrorNotification -TitleKey $TitleKey -MessageKey $MessageKey
+        }
+    }
+    if (-not (Get-Command Show-WarningNotification -ErrorAction SilentlyContinue)) {
+        function Show-WarningNotification {
+            param(
+                [string]$TitleKey,
+                [string]$MessageKey
+            )
+            Send-WarningNotification -TitleKey $TitleKey -MessageKey $MessageKey
+        }
+    }
+    if (-not (Get-Command Show-SuccessNotification -ErrorAction SilentlyContinue)) {
+        function Show-SuccessNotification {
+            param(
+                [string]$TitleKey,
+                [string]$MessageKey
+            )
+            Send-SuccessNotification -TitleKey $TitleKey -MessageKey $MessageKey
+        }
+    }
+}
+else {
+    function Show-ErrorNotification { }
+    function Show-WarningNotification { }
+    function Show-SuccessNotification { }
+}
+
+# ------------------ RUTAS DE ORIGEN Y DESTINO ------------------
+# Ajusta estas rutas antes de ejecutar.
 $sourcePath = "REEMPLAZA_CON_TU_RUTA_DE_ORIGEN"
 $destinationPaths = @(
     "REEMPLAZA_CON_TU_RUTA_DE_DESTINO",
     "REEMPLAZA_CON_TU_RUTA_DE_DESTINO",
     "REEMPLAZA_CON_TU_RUTA_DE_DESTINO"
 )
-
 $global:logEntries = @()
 $global:backupFailures = @()
 
-# ------------------ FUNCIONES DE UTILIDAD ------------------
+# Nueva variable para acumular índices de destinos inválidos.
+$invalidDestIndices = @()
 
+# ------------------ FUNCIONES DE UTILIDAD ------------------
 function Validate-PathCustom {
     param([string]$path)
     return ($path -match '^[A-Za-z]:[\\/].+') -and (Test-Path $path)
@@ -111,11 +171,11 @@ function Print-Separator {
 }
 
 function Update-ProgressBar {
-    param([string]$Icon, [int]$Counter, [int]$TotalFiles, [int]$BarLength)
-    $filled = "█" * [Math]::Round(($Counter * $BarLength) / $TotalFiles)
-    $empty = " " * ($BarLength - $filled.Length)
-    $percent = [Math]::Round(($Counter * 100) / $TotalFiles)
-    return ("[" + $filled + $empty + "] " + $percent + "% " + $msg.progressCompleted)
+    param([string]$Icon, [int]$Counter, [int]$TotalFiles, [int]$BarLen)
+    $filled = "█" * [math]::Round(($Counter * $BarLen) / $TotalFiles)
+    $empty  = " " * ($BarLen - $filled.Length)
+    $pct    = [math]::Round(($Counter * 100) / $TotalFiles)
+    return ("[" + $filled + $empty + "] " + $pct + "% " + $msg.progressCompleted)
 }
 
 function Truncate-Text {
@@ -124,11 +184,23 @@ function Truncate-Text {
 }
 
 # ------------------ VALIDACIONES INICIALES ------------------
-
 $sourceError = $false
-if ($sourcePath -is [array]) {
+if (($sourcePath -eq $null) -or ($sourcePath -eq "") -or ([string]::IsNullOrWhiteSpace($sourcePath))) {
     $sourceError = $true
-    $sourcePresentation = $msg.errorMultipleSource
+    $sourcePresentation = $msg.errorNoSource
+}
+elseif ($sourcePath -is [array]) {
+    if ($sourcePath.Count -gt 1) {
+        $sourceError = $true
+        $sourcePresentation = $msg.errorMultipleSource
+    }
+    elseif ([string]::IsNullOrWhiteSpace($sourcePath[0])) {
+        $sourceError = $true
+        $sourcePresentation = $msg.errorNoSource
+    }
+    else {
+        $sourcePresentation = $sourcePath[0]
+    }
 }
 elseif (-not (Validate-PathCustom $sourcePath)) {
     $sourceError = $true
@@ -139,7 +211,7 @@ else {
 }
 
 $validDestinations = @()
-$destinationWarnings = @()
+if (-not $destinationWarnings) { $destinationWarnings = @() }
 $idx = 1
 foreach ($d in $destinationPaths) {
     if ($d -match '^[A-Za-z]:[\\/].+') {
@@ -148,11 +220,13 @@ foreach ($d in $destinationPaths) {
         $validDestinations += $obj
     }
     else {
-        $destinationWarnings += ($globalSymbols.dash + " " + $msg.destSingular + " " + $idx.ToString() + $globalSymbols.colon + " " + $msg.errorInvalidDestination + " '" + $d + "'")
+        $destinationWarnings += ($globalSymbols.dash + " " + $msg.destSingular + " " + $idx.ToString() + $globalSymbols.colon + " " + $msg.errorInvalidDestination)
+        $invalidDestIndices += $idx
     }
     $idx++
 }
 
+# ------------------ PRESENTACIÓN INICIAL ------------------
 function Show-InitialPresentation {
     Write-Host ""
     Print-Separator "=" ([Console]::WindowWidth) "Cyan"
@@ -163,46 +237,38 @@ function Show-InitialPresentation {
     Write-IconMessage $globalSymbols.folder ($msg.labelSource + $globalSymbols.colon) "Gray"
     Write-Host ""
     if ($sourceError) { $originColor = "Red" } else { $originColor = "White" }
-    Write-Host ("   └── " + $sourcePresentation) -ForegroundColor $originColor
+    Write-Host ("   └─" + $globalSymbols.folder + " " + $sourcePresentation) -ForegroundColor $originColor
     Write-Host ""
     
     Write-IconMessage $globalSymbols.storage ($msg.destPlural + $globalSymbols.colon) "Gray"
     Write-Host ""
-    $i = 1
-    foreach ($dest in $destinationPaths) {
-        if ($dest -match '^[A-Za-z]:[\\/].+') {
-            $obj = $validDestinations | Where-Object { $_.Index -eq $i }
-            if ($obj) { $color = $obj.Color; $icon = (Get-DisplayNameForDestination $dest -Color $color).Icon }
-            else { $color = Get-DestinationColor $dest; $icon = (Get-DisplayNameForDestination $dest -Color $color).Icon }
-            Write-Host ($i.ToString() + " " + $globalSymbols.colon + " " + $icon + " " + $dest) -ForegroundColor $color
+    for ($j = 0; $j -lt $destinationPaths.Count; $j++) {
+        if ($destinationPaths[$j] -match '^[A-Za-z]:[\\/].+') {
+            $display = Get-DisplayNameForDestination $destinationPaths[$j]
+            Write-Host ((($j+1).ToString() + $globalSymbols.colon + " " + $display.Icon + " " + $destinationPaths[$j])) -ForegroundColor $display.Color
         }
         else {
-            Write-Host ($i.ToString() + " " + $globalSymbols.colon + " " + $globalSymbols.error + " '" + $dest + "'") -ForegroundColor Red
+            Write-Host ((($j+1).ToString() + $globalSymbols.colon + " " + $globalSymbols.error + " '" + $destinationPaths[$j] + "'")) -ForegroundColor Red
         }
-        $i++
     }
-    
-    if ($validDestinations.Count -eq 0) {
-        Write-Host ("   " + $msg.errorNoDestination) -ForegroundColor Red
-    }
-    
-    if (-not $sourceError -and $validDestinations.Count -gt 0) {
-        Write-Host ""
-        Print-Separator "-" ([Console]::WindowWidth) "Yellow"
-        Write-Host ""
-    }
+    Write-Host ""
+    Print-Separator "-" ([Console]::WindowWidth) "Yellow"
+    Write-Host ""
 }
 
+# ------------------ PROCESO DE RESPALDO (BARRA DE PROGRESO) ------------------
 function Copy-WithProgress {
     param(
         [string]$DestinationPath,
         [int]$DestIndex,
         [string]$Color
     )
-    if (-not $Color) { $Color = Get-DestinationColor $DestinationPath }
-    
-    $IconForDest = if ($DestinationPath -imatch "OneDrive" -or $DestinationPath -imatch "iCloudDrive") { $globalSymbols.cloud + " " } else { $globalSymbols.folder }
-    
+    if ($DestinationPath -imatch "OneDrive" -or $DestinationPath -imatch "iCloudDrive") {
+        $IconForDest = $globalSymbols.cloud + " "
+    }
+    else {
+        $IconForDest = $globalSymbols.folder
+    }
     $Files = Get-ChildItem -Path $sourcePath -Recurse -File
     $TotalFiles = $Files.Count
     if ($TotalFiles -eq 0) {
@@ -235,8 +301,12 @@ function Copy-WithProgress {
                 $State = $msg.state_copied
                 $replacementDate = Get-ReplacementDateDisplay -date (Get-Item $fullDestPath).LastWriteTime -state $State
             }
-            if ($File.DirectoryName.StartsWith($normalizedSource)) { $relativeFolder = $File.DirectoryName.Substring($normalizedSource.Length) }
-            else { $relativeFolder = $File.DirectoryName }
+            if ($File.DirectoryName.StartsWith($normalizedSource)) {
+                $relativeFolder = $File.DirectoryName.Substring($normalizedSource.Length)
+            }
+            else {
+                $relativeFolder = $File.DirectoryName
+            }
             $logEntry = [PSCustomObject]@{
                 Destination     = $DestinationPath
                 Subfolder       = $relativeFolder
@@ -249,10 +319,11 @@ function Copy-WithProgress {
             $Counter++
             $progressBar = Update-ProgressBar $IconForDest $Counter $TotalFiles $BarLength
             $progressText = $DestIndex.ToString() + $globalSymbols.colon + " " + $IconForDest + " " + $progressBar
-            if ($Counter -eq 1) { Write-Host $progressText -ForegroundColor $Color }
+            if ($Counter -eq 1) {
+                Write-Host $progressText -ForegroundColor $Color
+            }
             else {
-                $cursorLine = [Console]::CursorTop - 1
-                [Console]::SetCursorPosition(0, $cursorLine)
+                [Console]::SetCursorPosition(0, [Console]::CursorTop - 1)
                 Write-Host $progressText -ForegroundColor $Color
             }
             Start-Sleep -Milliseconds 20
@@ -271,34 +342,42 @@ function Process-Backup {
     }
 }
 
+# ------------------ MOSTRAR ADVERTENCIAS ------------------
 function Show-Warnings {
     if ($destinationWarnings.Count -gt 0) {
         Print-Separator "-" ([Console]::WindowWidth) "Yellow"
         Write-Host ($globalSymbols.warning + "  " + $msg.warningText + $globalSymbols.colon) -ForegroundColor Yellow
-        foreach ($warn in $destinationWarnings) { Write-Host $warn -ForegroundColor Yellow }
+        foreach ($warn in $destinationWarnings) {
+            Write-Host $warn -ForegroundColor Red
+        }
         Print-Separator "-" ([Console]::WindowWidth) "Yellow"
     }
 }
 
+# ------------------ MOSTRAR RESUMEN Y TABLA CONSOLIDADA ------------------
 function Show-BackupCompleted {
     $completedDestinations = @()
     foreach ($obj in $validDestinations) {
-        if (-not ($global:backupFailures -contains $obj.Destination)) { $completedDestinations += $obj }
+        if (-not ($global:backupFailures -contains $obj.Destination)) {
+            $completedDestinations += $obj
+        }
     }
     if ($completedDestinations.Count -gt 0) {
         if ($destinationWarnings.Count -eq 0) { Print-Separator "-" ([Console]::WindowWidth) "Yellow" }
-        Write-Host ($globalSymbols.success + " " + $msg.labelBackupCompleted + $globalSymbols.colon) -ForegroundColor Green
+        Write-Host ($msg.labelBackupCompleted + $globalSymbols.colon) -ForegroundColor Green
         foreach ($item in $completedDestinations) {
             $display = Get-DisplayNameForDestination $item.Destination -Color $item.Color
-            $line = $globalSymbols.dash + " " + $msg.destSingular + " " + $item.Index.ToString() + $globalSymbols.colon + " " + $display.Icon + " " + $display.Name
-            Write-Host $line -ForegroundColor $item.Color
+            Write-Host ($globalSymbols.dash + " " + $msg.destSingular + " " + $item.Index.ToString() + $globalSymbols.colon + " " + $display.Icon + " " + $display.Name) -ForegroundColor $item.Color
         }
         Print-Separator "-" ([Console]::WindowWidth) "Yellow"
     }
 }
 
 function Show-ConsolidatedTable {
-    param([string]$DestinationPath, [array]$Entries)
+    param(
+        [string]$DestinationPath,
+        [array]$Entries
+    )
     $destObj = $validDestinations | Where-Object { $_.Destination -eq $DestinationPath } | Select-Object -First 1
     if ($destObj) {
         $color = $destObj.Color
@@ -310,18 +389,12 @@ function Show-ConsolidatedTable {
         $display = Get-DisplayNameForDestination $DestinationPath -Color $color
         $headerDestino = $msg.destSingular + $globalSymbols.colon + " " + $DestinationPath
     }
-    
     Print-Separator "=" ([Console]::WindowWidth) $display.Color
     Write-Host (Format-IconText $display.Icon $headerDestino) -ForegroundColor $display.Color
     Print-Separator "=" ([Console]::WindowWidth) $display.Color
     Write-Host ""
     
-    $col1Width = 15
-    $col2Width = 20
-    $col3Width = 20
-    $col4Width = 20
-    $col5Width = 10
-
+    $col1Width = 15; $col2Width = 20; $col3Width = 20; $col4Width = 20; $col5Width = 10
     $col1 = $msg.tableHeader1.PadRight($col1Width)
     $col2 = $msg.tableHeader2.PadRight($col2Width)
     $col3 = ($msg.date + " " + $msg.originalLabel).PadRight($col3Width)
@@ -330,21 +403,40 @@ function Show-ConsolidatedTable {
     $hdr = $col1 + " " + $col2 + " " + $col3 + " " + $col4 + " " + $col5
     Write-Host $hdr -ForegroundColor White
     Print-Separator "-" ([Console]::WindowWidth) $display.Color
-
     foreach ($e in ($Entries | Where-Object { $_.Destination -eq $DestinationPath } | Sort-Object Subfolder, FileName)) {
-        $subs = (Truncate-Text -text $e.Subfolder -maxLength $col1Width).PadRight($col1Width)
-        $file = (Truncate-Text -text $e.FileName -maxLength $col2Width).PadRight($col2Width)
-        $orig = $e.OriginalDate.PadRight($col3Width)
-        $repl = $e.ReplacementDate.PadRight($col4Width)
-        $state = $e.State.PadRight($col5Width)
-        $line = $subs + " " + $file + " " + $orig + " " + $repl + " " + $state
+        $c1 = (Truncate-Text -text $e.Subfolder -maxLength $col1Width).PadRight($col1Width)
+        $c2 = (Truncate-Text -text $e.FileName -maxLength $col2Width).PadRight($col2Width)
+        $c3 = $e.OriginalDate.PadRight($col3Width)
+        $c4 = $e.ReplacementDate.PadRight($col4Width)
+        $c5 = $e.State.PadRight($col5Width)
+        $line = $c1 + " " + $c2 + " " + $c3 + " " + $c4 + " " + $c5
         Write-Host $line -ForegroundColor $display.Color
     }
     Write-Host ""
 }
 
+# ------------------ WAIT-FOR-KEYPRESS ------------------
+function Wait-ForKeyPress {
+    Write-Host $msg.exitPrompt -ForegroundColor White
+    [void][System.Console]::ReadKey($true)
+}
+
+# ------------------ BLOQUE PRINCIPAL ------------------
 try {
     Show-InitialPresentation
+    
+    # Validar si hay archivos en la ruta de origen.
+    $TestFiles = Get-ChildItem -Path $sourcePath -Recurse -File -ErrorAction SilentlyContinue
+    if ($TestFiles.Count -eq 0) {
+        $destinationWarnings += ($globalSymbols.dash + " " + "Origen" + $globalSymbols.colon + " " + $msg.notificationNoFilesMessage)
+        if ($NotificationsModuleAvailable) {
+            $notificationQueue += { Show-WarningNotification -TitleKey "notificationNoFilesTitle" -MessageKey $msg.notificationNoFilesMessage }
+        }
+        $proceed = $false
+    }
+    else {
+        $proceed = $true
+    }
     
     if ($sourceError -or ($validDestinations.Count -eq 0)) {
         Print-Separator "=" ([Console]::WindowWidth) "Magenta"
@@ -352,7 +444,7 @@ try {
             Write-Host ($globalSymbols.dash + " " + $msg.labelSource + $globalSymbols.colon + " " + $msg.errorNoSource) -ForegroundColor Red
         }
         if ($validDestinations.Count -eq 0) {
-            Write-Host ($globalSymbols.dash + " " + $msg.destSingular + " 1" + $globalSymbols.colon + " " + $msg.errorNoDestination) -ForegroundColor Red
+            Write-Host ($globalSymbols.dash + " " + $msg.destSingular + "1" + $globalSymbols.colon + " " + $msg.errorNoDestination) -ForegroundColor Red
         }
         Print-Separator "=" ([Console]::WindowWidth) "Magenta"
         $global:logEntries += [PSCustomObject]@{
@@ -366,50 +458,88 @@ try {
         $proceed = $false
     }
     else {
-        $proceed = $true
-        Process-Backup
-         
-        $tempLogFile = Join-Path $PSScriptRoot "extras\Logs\Generate-Logs.ps1"
-        if (-not (Test-Path $tempLogFile)) {
-            $destinationWarnings += ($globalSymbols.dash + " " + $msg.logLabel + $globalSymbols.colon + " " + $msg.errorMissingLogFile)
+        if ($proceed -eq $true) { Process-Backup }
+        
+        if (-not (Test-Path (Join-Path $PSScriptRoot "modules\Logging\Logging.psd1"))) {
+            if ($NotificationsModuleAvailable -and -not $logWarningEnqueued) {
+                $notificationQueue += { Show-WarningNotification -TitleKey "notificationLogErrorTitle" -MessageKey $msg.logModuleMissing }
+                $logWarningEnqueued = $true
+            }
         }
-         
+        
+        foreach ($w in $moduleWarnings) {
+            $destinationWarnings += $w
+        }
+        
         Show-Warnings
-        Show-BackupCompleted
-         
-        foreach ($destObj in $validDestinations) {
-            Show-ConsolidatedTable -DestinationPath $destObj.Destination -Entries $global:logEntries
+        
+        if ($proceed -eq $true) {
+            Show-BackupCompleted
+            foreach ($destObj in $validDestinations) {
+                Show-ConsolidatedTable -DestinationPath $destObj.Destination -Entries $global:logEntries
+            }
+            
+            $existingCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_exists }).Count
+            $copiedCount   = ($global:logEntries | Where-Object { $_.State -eq $msg.state_copied }).Count
+            $failureCount  = $global:backupFailures.Count
+            $errText = if ($failureCount -eq 1) { $msg.errorSingular } else { $msg.errorPlural }
+            
+            Write-Host ""
+            Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+            Write-Host ($msg.backupSummary + $globalSymbols.colon) -ForegroundColor White
+            Write-Host ($globalSymbols.dash + " " + $msg.summaryLine1 + $globalSymbols.colon + " " + $existingCount) -ForegroundColor Yellow
+            Write-Host ($globalSymbols.dash + " " + $msg.summaryLine2 + $globalSymbols.colon + " " + $copiedCount) -ForegroundColor Green
+            Write-Host ($globalSymbols.dash + " " + $msg.summaryLine3 + $globalSymbols.colon + " " + $failureCount + " " + $errText) -ForegroundColor Red
+            Print-Separator "=" ([Console]::WindowWidth) "Magenta"
+            Write-Host ""
         }
     }
     
-    if ($proceed -eq $true) {
-        $existingCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_exists }).Count
-        $copiedCount = ($global:logEntries | Where-Object { $_.State -eq $msg.state_copied }).Count
-        $errorCount = $global:backupFailures.Count
-         
-        Write-Host ""
-        Print-Separator "=" ([Console]::WindowWidth) "Magenta"
-        Write-Host ($msg.backupSummary + $globalSymbols.colon) -ForegroundColor White
-        Write-Host ($globalSymbols.dash + " " + $msg.summaryLine1 + $globalSymbols.colon + " " + $existingCount) -ForegroundColor Yellow
-        Write-Host ($globalSymbols.dash + " " + $msg.summaryLine2 + $globalSymbols.colon + " " + $copiedCount) -ForegroundColor Green
-        if ($errorCount -eq 1) { $errText = $msg.errorSingular } else { $errText = $msg.errorPlural }
-        Write-Host ($globalSymbols.dash + " " + $msg.summaryLine3 + $globalSymbols.colon + " " + $errorCount + " " + $errText) -ForegroundColor Red
-        Print-Separator "=" ([Console]::WindowWidth) "Magenta"
-        Write-Host ""
-         
-        try {
-            Import-Module BurntToast -ErrorAction Stop
-            $notifModule = Join-Path $PSScriptRoot "extras\notifications\notifications.ps1"
-            if (Test-Path $notifModule) {
-                Import-Module $notifModule -ErrorAction SilentlyContinue
-                Show-SuccessNotification -Title $msg.notificationSuccessTitle -Message $msg.notificationSuccessMessage
+    # ------------------ NOTIFICACIONES ADICIONALES ------------------
+    try {
+        if ($sourceError) {
+            if ($sourcePath -is [array]) {
+                $notificationQueue += { Show-ErrorNotification -TitleKey "notificationInvalidSourceTitle" -MessageKey $msg.notificationInvalidSourceMessage }
             }
             else {
-                Write-Host $msg.notificationModuleMissing -ForegroundColor Yellow
+                $notificationQueue += { Show-ErrorNotification -TitleKey "notificationNoSourceTitle" -MessageKey $msg.notificationNoSourceMessage }
             }
         }
-        catch {
-            Write-Host ($msg.errorNotification + $_.Exception.Message) -ForegroundColor Red
+        elseif (($validDestinations.Count) -eq 0) {
+            $notificationQueue += { Show-ErrorNotification -TitleKey "notificationNoDestinationTitle" -MessageKey $msg.notificationNoDestinationMessage }
+        }
+        
+        # Notificación warning para destinos inválidos.
+        if ($invalidDestIndices.Count -gt 0 -and $NotificationsModuleAvailable) {
+            $indicesStr = $invalidDestIndices -join ", "
+            if ($invalidDestIndices.Count -eq 1) {
+                $message = $msg.destSingular + $globalSymbols.colon + " " + $indicesStr + $msg.notificationInvalidDestinationMessageSingular
+            }
+            else {
+                $message = $msg.destPlural + $globalSymbols.colon + " " + $indicesStr + $msg.notificationInvalidDestinationMessagePlural
+            }
+            $notificationQueue += { Show-WarningNotification -TitleKey "notificationInvalidDestinationTitle" -MessageKey $message }
+        }
+        
+        if (($proceed -eq $true) -and ($global:backupFailures.Count -gt 0)) {
+            $notificationQueue += { Show-WarningNotification -TitleKey "notificationPartialSuccessTitle" -MessageKey $msg.notificationPartialSuccessMessage }
+        }
+        if (($proceed -eq $true) -and ($global:backupFailures.Count -eq 0)) {
+            # Agregar resumen al mensaje success
+            $summaryText = "`n- " + $msg.summaryLine1 + $globalSymbols.colon + " " + $existingCount + "`n" +
+                           "- " + $msg.summaryLine2 + $globalSymbols.colon + " " + $copiedCount + "`n" +
+                           "- " + $msg.summaryLine3 + $globalSymbols.colon + " " + $failureCount
+            $notificationQueue += { Show-SuccessNotification -TitleKey "notificationSuccessTitle" -MessageKey ($msg.notificationSuccessMessage + $summaryText) }
+        }
+    }
+    catch {
+        Write-Host ($msg.errorNotification + $_.Exception.Message) -ForegroundColor Red
+    }
+    
+    # Ejecutar la cola de notificaciones UNA SOLA VEZ AL FINAL.
+    if ($notificationQueue.Count -gt 0) {
+        foreach ($n in $notificationQueue) {
+            & $n
         }
     }
 }
@@ -425,15 +555,15 @@ catch {
     }
 }
 finally {
-    $logModule = Join-Path $PSScriptRoot "extras\Logs\Generate-Logs.ps1"
-    if (Test-Path $logModule) {
-        . $logModule
+    $tempLogModule2 = Join-Path $PSScriptRoot "modules\Logging\Logging.psd1"
+    if ((Test-Path $tempLogModule2) -and ($global:logEntries.Count -gt 0)) {
         Export-Logs -LogEntries $global:logEntries
     }
-    if (-not $AutoMode) {
-        Pause
-    }
-    else {
-        exit
-    }
+    Wait-ForKeyPress
+}
+
+# ------------------ WAIT-FOR-KEYPRESS ------------------
+function Wait-ForKeyPress {
+    Write-Host $msg.exitPrompt -ForegroundColor White
+    [void][System.Console]::ReadKey($true)
 }

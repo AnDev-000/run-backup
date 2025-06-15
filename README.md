@@ -95,7 +95,7 @@ Al finalizar, se mostrará un informe detallado que incluye:
 La versión más reciente de **RunBackup** está disponible en la sección de Releases.  
 Puedes descargar los archivos ejecutables desde el siguiente enlace:
 
-🔹 [Descargar RunBackup v2.2.0](https://github.com/AnDev-000/run-backup/releases/tag/v2.2.1)
+🔹 [Descargar RunBackup v2.2.2](https://github.com/AnDev-000/run-backup/releases/tag/v2.2.2)
 
 ---
 
@@ -200,6 +200,35 @@ Hacer el respaldo automático con script más **transparente**, **visual** y **s
 ---
 
 ## 🆕 Ultimas mejoras agregadas
+🚀 Mejoras del 06 de junio de 2025, ver 2.2.2  
+- **RunBackup.ps1:**  
+  • Se optimizó la presentación en terminal: banners, separadores y resumen mejorados.  
+  • Ruta de origen y destinos ahora muestran íconos (`📂`, `☁`) y prefijos (`└─`), con funciones que eliminan espacios innecesarios.
+  • Nuevas notificaciones:
+    - Advertencia si la ruta de origen está vacía.
+    - Warning para destinos inválidos (spinner de 7 s + mensajes singular/plural). 
+    - Success incluye resumen de contadores (Existentes, Copiados, Fallidos).
+  • Flujo reordenado: warnings antes de success.  
+
+- **modules/Notifications:**  
+  • Refactorización de `Notifications.psm1`/`.psd1` e integración de `Wait-WithSpinner`.  
+  • Nuevos activos: `error.png`, `success.png`, `warning.png` y sus `.wav`.  
+  • Verificación de dependencias(BurntToast) y llamada a `installer/Setup.ps1` si falta.
+
+- **lang/languages.ps1:**  
+  • Diccionario ampliado y reorganizado con nuevos textos.  
+  • Soporte extra agregado (e.g., chino) y orden optimizado.  
+
+- **installer/Setup.ps1:**
+  • Simplificado para instalar sólo BurntToast.  
+  • Spinner animado durante la instalación.
+
+- **Reestructuración general:**  
+  • Eliminación de carpetas y archivos obsoletos.
+  • Refactorización para eliminar redundancias y mejorar validaciones.
+
+---
+
 🚀 Mejoras del 04 de junio de 2025, ver 2.2.1  
 - ✅ **Refactorización y reestructuración total:** Se eliminó SuccessfulBackup.ps1 y se sustituyó por notifications.ps1 para lograr un proyecto más modular.  
 - ✅ **Orden y limpieza en RunBackup.ps1:** Reorganización integral del script principal, facilitando el mantenimiento y la comprensión.  
@@ -262,10 +291,10 @@ Durante el desarrollo de RunBackup v2, se añadieron nuevas características que
 
 ### 🔄 Objetivos para la próxima versión (**V2.3 Final**, en desarrollo)
 
-- ❌ Concluir personalizacion notificaciones
-- ❌ Completar reestructuracion y organizacion del codigo.
-- ❌ corregir errores.
-- ❌ concluir codificacion del proyecto
+- ✅ Concluir personalización de notificaciones  
+- ✅ Completar reestructuración y organización del código  
+- ❌ Corregir errores  
+- ❌ Concluir codificación del proyecto
 
 ### ✅ Objetivos cumplidos en **Versión 2.2.0**
 
