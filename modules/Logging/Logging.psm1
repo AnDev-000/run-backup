@@ -1,24 +1,19 @@
-# extras\Logs\Generate-Logs.ps1
-# -------------------------------------------------------------------
-# MODULE: Export-Logs
-# Este módulo exporta los registros almacenados en $global:logEntries a varios formatos
-# (CSV, JSON, XML, plain text y HTML) y limpia el historial si supera un máximo.
-# -------------------------------------------------------------------
+# ------------------ MÓDULO DE EXPORTACION DE LOGS ------------------
+# Este módulo proporciona una función para exportar logs de backup a varios formatos (CSV, JSON, XML, texto plano y HTML).
 
 function Export-Logs {
     param(
         [Parameter(Mandatory=$true)]
         [array]$LogEntries,
-        [int]$MaxLogHistory = 5   # Número máximo de archivos por formato (por defecto, 5)
+        [int]$MaxLogHistory = 5  # Cantidad máxima de archivos por formato (por defecto, 5)
     )
 
-    # Crear un timestamp para distinguir las exportaciones
+    # ------------------ CREAR TIMESTAMP Y RUTAS ------------------
     $timestamp = (Get-Date).ToString("yyyyMMdd_HHmm")
-    
-    # Definir la carpeta raíz para los logs (dentro del directorio de este módulo)
+    # Carpeta raíz para logs (dentro del directorio actual del módulo)
     $logRoot = Join-Path $PSScriptRoot "logs_RunBackupV2"
 
-    # Definir subcarpetas para cada formato
+    # Definir subcarpetas para cada formato de exportación
     $subFolders = @{
         csv   = Join-Path $logRoot "csv"
         json  = Join-Path $logRoot "json"
@@ -34,27 +29,24 @@ function Export-Logs {
         }
     }
 
-    # --- Exportación de Logs ---
-    # CSV: Exportar los logs a un archivo CSV
+    # ------------------ EXPORTAR LOGS A CSV, JSON Y XML ------------------
     $csvFile = Join-Path $subFolders.csv ("runbackup_" + $timestamp + ".csv")
     $LogEntries | Export-Csv -Path $csvFile -NoTypeInformation
 
-    # JSON: Exportar los logs a un archivo JSON
     $jsonFile = Join-Path $subFolders.json ("runbackup_" + $timestamp + ".json")
     $LogEntries | ConvertTo-Json -Depth 3 | Out-File $jsonFile -Encoding UTF8
 
-    # XML: Exportar los logs a un archivo XML
     $xmlFile = Join-Path $subFolders.xml ("runbackup_" + $timestamp + ".xml")
     $LogEntries | ConvertTo-Xml -As String -Depth 3 | Out-File $xmlFile -Encoding UTF8
 
-    # Formato Plano: Generar un archivo de log estilo SQL
+    # ------------------ EXPORTAR LOGS A TEXTO PLANO ------------------
     $plainFile = Join-Path $subFolders.plain ("runbackup_" + $timestamp + ".log")
     $plainContent = $LogEntries | ForEach-Object {
         "INSERT INTO backup_log (Destination, Subfolder, FileName, OriginalDate, ReplacementDate, State) VALUES ('$($_.Destination)', '$($_.Subfolder)', '$($_.FileName)', '$($_.OriginalDate)', '$($_.ReplacementDate)', '$($_.State)');"
     }
     $plainContent | Out-File $plainFile -Encoding UTF8
 
-    # HTML: Generar un archivo HTML con una tabla que contenga los logs
+    # ------------------ EXPORTAR LOGS A HTML ------------------
     $htmlFile = Join-Path $subFolders.html ("runbackup_" + $timestamp + ".html")
     $htmlHeader = @"
 <!DOCTYPE html>
@@ -105,7 +97,7 @@ function Export-Logs {
     $htmlContent = $htmlHeader + $htmlRows + $htmlFooter
     $htmlContent | Out-File $htmlFile -Encoding UTF8
 
-    # --- Limpieza del historial de logs ---
+    # ------------------ LIMPIEZA DEL HISTORIAL DE LOGS ------------------
     function Manage-LogHistory {
         param(
             [Parameter(Mandatory=$true)][string]$Folder,
@@ -124,9 +116,10 @@ function Export-Logs {
     foreach ($folder in $subFolders.Values) {
         Manage-LogHistory -Folder $folder -MaxFiles $MaxLogHistory
     }
-    
-    # Devolver, opcionalmente, la ruta del archivo HTML generado para referencia
+
+    # Retornar la ruta del archivo HTML generado como referencia (opcional)
     return $htmlFile
 }
 
-# Fin del módulo Export-Logs.
+# ------------------ EXPORTAR MIEMBROS DEL MODULO ------------------
+Export-ModuleMember -Function Export-Logs

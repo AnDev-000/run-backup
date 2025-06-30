@@ -1,9 +1,7 @@
-<# 
-    Uninstall-BurntToast.ps1
-    Script para desinstalar el módulo BurntToast.
-    Se recomienda ejecutar este script en una sesión de PowerShell donde el módulo no esté en uso.
-#>
+# Este script es para desinstalar BurntToast.
+# Haz click derecho en el archivo y selecciona "Ejecutar con PowerShell" para desinstalar el módulo BurntToast de PowerShell.
 
+# ------------------ UNINSTALL: DESINSTALAR BURNTTOAST ------------------
 try {
     # Si el módulo está cargado en la sesión, se intenta quitarlo.
     if (Get-Module -Name BurntToast) {

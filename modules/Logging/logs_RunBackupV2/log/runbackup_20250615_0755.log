@@ -1,1 +1,0 @@
-﻿INSERT INTO backup_log (Destination, Subfolder, FileName, OriginalDate, ReplacementDate, State) VALUES ('N/A', 'N/A', 'N/A', '15-06-25 07:55:40', 'No ejecutado', 'Error: Rutas de origen/destino inválidas.');

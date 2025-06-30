@@ -1,18 +1,24 @@
+# ------------------ MÓDULO DE NOTIFICACIONES ------------------
+# Este módulo proporciona funciones para enviar notificaciones personalizadas en PowerShell utilizando BurntToast.
+
 # ------------------ RUTAS A ASSETS ------------------
 $ModuleRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 
-$ImgSuccess = Join-Path $ModuleRoot 'Assets\Images\success.png'
-$ImgError   = Join-Path $ModuleRoot 'Assets\Images\error.png'
-$ImgWarning = Join-Path $ModuleRoot 'Assets\Images\warning.png'
+$ImgSuccess = Join-Path $ModuleRoot 'Assets\Images\Success.png'
+$ImgError   = Join-Path $ModuleRoot 'Assets\Images\Error.png'
+$ImgWarning = Join-Path $ModuleRoot 'Assets\Images\Warning.png'
 
-$SndSuccess = Join-Path $ModuleRoot 'Assets\Sounds\success.wav'
-$SndError   = Join-Path $ModuleRoot 'Assets\Sounds\error.wav'
-$SndWarning = Join-Path $ModuleRoot 'Assets\Sounds\warning.wav'
+$SndSuccess = Join-Path $ModuleRoot 'Assets\Sounds\Success.wav'
+$SndError   = Join-Path $ModuleRoot 'Assets\Sounds\Error.wav'
+$SndWarning = Join-Path $ModuleRoot 'Assets\Sounds\Warning.wav'
 
-# ------------------ AUXILIARES ------------------
+# ------------------ FUNCIONES AUXILIARES ------------------
 function Get-LocalizedText {
     [CmdletBinding()]
-    param([Parameter(Mandatory)][string]$Key)
+    param(
+        [Parameter(Mandatory)][string]$Key
+    )
+    # Devuelve el texto localizado si existe; de lo contrario, la propia clave.
     if ($global:msg -and $global:msg.ContainsKey($Key)) {
         return $global:msg[$Key]
     }
@@ -21,14 +27,16 @@ function Get-LocalizedText {
 
 function Play-CustomSound {
     [CmdletBinding()]
-    param([Parameter(Mandatory)][string]$Path)
+    param(
+        [Parameter(Mandatory)][string]$Path
+    )
     if (Test-Path $Path) {
         try {
             $player = New-Object System.Media.SoundPlayer $Path
             $player.Play()
         }
         catch {
-            # Se omite el mensaje para evitar duplicación.
+            # Se omite el mensaje para evitar duplicaciones.
         }
     }
 }
@@ -48,14 +56,14 @@ function Wait-WithSpinner {
 }
 
 # ------------------ VERIFICACIÓN DE DEPENDENCIAS ------------------
-$installerSetup = Join-Path $ModuleRoot "..\..\installer\Setup.ps1"
+$installerSetup = Join-Path $ModuleRoot "..\..\Installer\Setup.ps1"
 if (-not (Get-Module -ListAvailable -Name "BurntToast")) {
     if (Test-Path $installerSetup) {
         & $installerSetup
     }
 }
 $global:BurntToastInstalled = (Get-Module -ListAvailable -Name "BurntToast") -ne $null
-# No se emite mensaje directo; RunBackup.ps1 se encargará de sus advertencias.
+# No se muestra mensaje directo; RunBackup.ps1 se encargará de avisar.
 
 # ------------------ CMDLETS DE NOTIFICACIÓN ------------------
 function Send-SuccessNotification {
@@ -70,9 +78,9 @@ function Send-SuccessNotification {
     $title   = Get-LocalizedText -Key $TitleKey
     $message = Get-LocalizedText -Key $MessageKey
     Play-CustomSound -Path $SndSuccess
-    $logo    = if ($IconPath -and (Test-Path $IconPath)) { $IconPath } else { $ImgSuccess }
+    $logo = if ($IconPath -and (Test-Path $IconPath)) { $IconPath } else { $ImgSuccess }
     New-BurntToastNotification -AppLogo $logo -Text $title, $message
-    # Notificación success sin espera.
+    # Notificación de éxito sin espera.
 }
 
 function Send-ErrorNotification {
@@ -87,9 +95,9 @@ function Send-ErrorNotification {
     $title   = Get-LocalizedText -Key $TitleKey
     $message = Get-LocalizedText -Key $MessageKey
     Play-CustomSound -Path $SndError
-    $logo    = if ($IconPath -and (Test-Path $IconPath)) { $IconPath } else { $ImgError }
+    $logo = if ($IconPath -and (Test-Path $IconPath)) { $IconPath } else { $ImgError }
     New-BurntToastNotification -AppLogo $logo -Text $title, $message
-    # Notificación error sin espera.
+    # Notificación de error sin espera.
 }
 
 function Send-WarningNotification {
@@ -104,9 +112,9 @@ function Send-WarningNotification {
     $title   = Get-LocalizedText -Key $TitleKey
     $message = Get-LocalizedText -Key $MessageKey
     Play-CustomSound -Path $SndWarning
-    $logo    = if ($IconPath -and (Test-Path $IconPath)) { $IconPath } else { $ImgWarning }
+    $logo = if ($IconPath -and (Test-Path $IconPath)) { $IconPath } else { $ImgWarning }
     New-BurntToastNotification -AppLogo $logo -Text $title, $message
-    # Solo las notificaciones warning llevan espera.
+    # Las notificaciones de advertencia esperan 7 segundos para ser visibles.
     Wait-WithSpinner 7
 }
 
@@ -117,6 +125,7 @@ function Send-SuggestionNotification {
         [Parameter(Mandatory)][string]$MessageKey,
         [string]$IconPath
     )
+    # Reutiliza la notificación de advertencia para sugerencias.
     Send-WarningNotification -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath
 }
 
@@ -129,20 +138,26 @@ function Send-Notification {
         [string]$IconPath
     )
     switch ($Type) {
-        "Success"    { Send-SuccessNotification    -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
-        "Error"      { Send-ErrorNotification      -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
-        "Warning"    { Send-WarningNotification    -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
+        "Success"    { Send-SuccessNotification -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
+        "Error"      { Send-ErrorNotification -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
+        "Warning"    { Send-WarningNotification -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
         "Suggestion" { Send-SuggestionNotification -TitleKey $TitleKey -MessageKey $MessageKey -IconPath $IconPath }
         default {
             Import-Module BurntToast -ErrorAction Stop
             New-BurntToastNotification -Text (Get-LocalizedText -Key $TitleKey), (Get-LocalizedText -Key $MessageKey)
-            # Por defecto, se asume warning; por lo tanto, espera:
+            # Asume notificación de advertencia; espera 7 segundos.
             Wait-WithSpinner 7
         }
     }
 }
 
-# ------------------ EXPORTACIÓN ------------------
-Export-ModuleMember -Function Get-LocalizedText, Play-CustomSound, `
-    Send-SuccessNotification, Send-ErrorNotification, Send-WarningNotification, `
-    Send-SuggestionNotification, Send-Notification, Wait-WithSpinner
+# ------------------ EXPORTACIÓN DEL MODULO ------------------
+Export-ModuleMember -Function `
+    Get-LocalizedText, `
+    Play-CustomSound, `
+    Send-SuccessNotification, `
+    Send-ErrorNotification, `
+    Send-WarningNotification, `
+    Send-SuggestionNotification, `
+    Send-Notification, `
+    Wait-WithSpinner
